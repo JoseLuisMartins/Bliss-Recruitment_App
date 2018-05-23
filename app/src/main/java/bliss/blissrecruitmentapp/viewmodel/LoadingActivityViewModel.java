@@ -2,6 +2,7 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
@@ -13,12 +14,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoadingActivityViewModel extends ViewModel{
-    private Health mHealth;
+
+    // live data to notify activity to change
     private MutableLiveData<Boolean> mServiceAvailable;
+
+    private final ObservableField<String> status = new ObservableField<>();
+    private final ObservableField<Boolean> loading = new ObservableField<>();
 
 
     public LoadingActivityViewModel() {
-        this.mHealth = new Health("loading");
+        this.status.set("Loading");
         this.mServiceAvailable = new MutableLiveData<>();
         checkHealth();
     }
@@ -34,20 +39,23 @@ public class LoadingActivityViewModel extends ViewModel{
     private void checkHealth(){
         HealthClient healthClient = RetrofitInstance.getRetrofitInstance().create(HealthClient.class);
         Call<Health> call = healthClient.health();
-
+        loading.set(true);
 
         call.enqueue(new Callback<Health>() {
             @Override
             public void onResponse(Call<Health> call, Response<Health> response) {
-                mHealth = response.body();
+                status.set(response.body().getmStatus());
+                loading.set(false);
 
                 if(response.code() == 200) {
-                  //go to Questions List Screen
-                  mServiceAvailable.setValue(true);
+                    //go to Questions List Screen
+                    mServiceAvailable.setValue(true);
                 }
-              
 
-                Log.d("debug", mHealth.getmStatus());
+                //notify for two way data binding
+
+
+                Log.d("debug", status.get());
             }
 
             @Override
@@ -57,12 +65,14 @@ public class LoadingActivityViewModel extends ViewModel{
         });
     }
 
-    public String getStatus() {
-        return mHealth.getmStatus();
+
+    public ObservableField<String> getStatus() {
+        return status;
     }
 
-
-
+    public ObservableField<Boolean> getLoading() {
+        return loading;
+    }
 
     public View.OnClickListener refresh() {
         return new View.OnClickListener() {
