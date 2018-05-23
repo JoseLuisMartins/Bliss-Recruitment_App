@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Bliss Recruitment App</string>
+
+    // UI
+    //loading
+    <string name="lbl_loading_activity__loading">Loading</string>
+    <string name="btn_loading_activity_refresh">Refresh</string>
+
+    //question list
+    <string name="hint_question_activity_search_query">Search query</string>
+    <string name="btn_question_activity_search">Search</string>
+
 </resources>
