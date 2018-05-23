@@ -6,7 +6,7 @@ import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
-import bliss.blissrecruitmentapp.model.Health;
+import bliss.blissrecruitmentapp.model.Status;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.network.api.HealthClient;
 import retrofit2.Call;
@@ -38,12 +38,12 @@ public class LoadingActivityViewModel extends ViewModel{
     // make a requester class
     private void checkHealth(){
         HealthClient healthClient = RetrofitInstance.getRetrofitInstance().create(HealthClient.class);
-        Call<Health> call = healthClient.health();
+        Call<Status> call = healthClient.health();
         loading.set(true);
 
-        call.enqueue(new Callback<Health>() {
+        call.enqueue(new Callback<Status>() {
             @Override
-            public void onResponse(Call<Health> call, Response<Health> response) {
+            public void onResponse(Call<Status> call, Response<Status> response) {
                 status.set(response.body().getmStatus());
                 loading.set(false);
 
@@ -52,14 +52,11 @@ public class LoadingActivityViewModel extends ViewModel{
                     mServiceAvailable.setValue(true);
                 }
 
-                //notify for two way data binding
-
-
                 Log.d("debug", status.get());
             }
 
             @Override
-            public void onFailure(Call<Health> call, Throwable t) {
+            public void onFailure(Call<Status> call, Throwable t) {
                 //handle error
             }
         });

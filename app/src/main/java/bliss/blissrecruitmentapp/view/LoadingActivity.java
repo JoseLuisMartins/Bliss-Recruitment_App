@@ -34,7 +34,7 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if(aBoolean){
-                   Intent intent = new Intent(mContext, QuestionList.class);
+                   Intent intent = new Intent(mContext, QuestionListActivity.class);
                    startActivity(intent);
                 }
 
