@@ -1,13 +1,17 @@
 package bliss.blissrecruitmentapp.model;
 
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
+
 import com.google.gson.annotations.SerializedName;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class Question {
 
     @SerializedName("id")
-    private int mId;
+    private int id;
 
     @SerializedName("question")
     private String question;
@@ -24,8 +28,8 @@ public class Question {
     @SerializedName("choices")
     private ArrayList<Choice> choices;
 
-    public int getmId() {
-        return mId;
+    public int getId() {
+        return id;
     }
 
     public String getQuestion() {
@@ -48,16 +52,9 @@ public class Question {
         return choices;
     }
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "mId=" + mId +
-                ", question='" + question + '\'' +
-                ", image_url='" + image_url + '\'' +
-                ", thumb_url='" + thumb_url + '\'' +
-                ", published_at='" + published_at + '\'' +
-                ", choices=" + choices +
-                '}';
+    @BindingAdapter({"imageUrl"})
+    public static void loadImage(ImageView view, String url) {
+        Picasso.get().load(url).into(view);
     }
 }
 

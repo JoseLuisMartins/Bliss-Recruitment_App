@@ -4,28 +4,30 @@ package bliss.blissrecruitmentapp.adapter;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-
 
 import java.util.List;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.viewmodel.ItemViewModel;
+import bliss.blissrecruitmentapp.view.QuestionListActivity;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
 
-    List<Question> questions;
+    private List<Question> mQuestions;
+    // To Do use callback
+    private QuestionListActivity activity;
 
-    public QuestionListAdapter(List<Question> questions) {
-        this.questions = questions;
+    public QuestionListAdapter(List<Question> questions, QuestionListActivity activity) {
+        this.mQuestions = questions;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+
+    public void  setQuestions(List<Question> questions) {
+        this.mQuestions = questions;
         notifyDataSetChanged();
     }
 
@@ -43,12 +45,18 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     @Override
     public void onBindViewHolder(@NonNull QuestionListItemHolder holder, int position) {
         ItemForQuestionListBinding itemBinding = holder.binding;
-        itemBinding.setQuestion(questions.get(position));
+        itemBinding.setQuestion(mQuestions.get(position));
+        itemBinding.viewItemForQuestionDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.goToDetailsScreen(mQuestions.get(position).getId());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return questions.size();
+        return mQuestions.size();
     }
 
     public class QuestionListItemHolder extends RecyclerView.ViewHolder {

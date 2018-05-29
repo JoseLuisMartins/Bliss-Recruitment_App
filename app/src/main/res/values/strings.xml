@@ -1,13 +1,20 @@
 <resources>
     <string name="app_name">Bliss Recruitment App</string>
 
-    // UI
-    //loading
+    <!-- |UI| -->
+
+    <!-- loading -->
     <string name="lbl_loading_activity__loading">Loading</string>
     <string name="btn_loading_activity_refresh">Refresh</string>
+    <string name="error_loading_activity_health">Service unavailable at the moment</string>
 
-    //question list
+    <!-- question list -->
     <string name="hint_question_activity_search_query">Search query</string>
-    <string name="btn_question_activity_search">Search</string>
+    <string name="lbl_question_activity_search">Search</string>
+    <string name="title_activity_question_details">QuestionDetails</string>
+
+    <!-- ID -->
+    <string name="question_id">question_id</string>
+
 
 </resources>

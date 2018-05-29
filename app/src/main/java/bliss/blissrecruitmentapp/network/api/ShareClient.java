@@ -1,11 +1,10 @@
 package bliss.blissrecruitmentapp.network.api;
 
-import bliss.blissrecruitmentapp.model.Status;
-import retrofit2.Call;
-import retrofit2.http.GET;
+import io.reactivex.Completable;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ShareClient {
-    @GET("share")
-    Call<Status> share(@Query("destination_email") String email, @Query("content_url") String content);
+    @POST("share")
+    Completable share(@Query("destination_email") String email, @Query("content_url") String content);
 }

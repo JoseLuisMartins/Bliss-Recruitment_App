@@ -1,10 +1,11 @@
 package bliss.blissrecruitmentapp.network.api;
 
 import bliss.blissrecruitmentapp.model.Status;
-import retrofit2.Call;
+import io.reactivex.Single;
+import retrofit2.Response;
 import retrofit2.http.GET;
 
 public interface HealthClient {
     @GET("health")
-    Call<Status> health();
+    Single<Response<Status>> health();
 }

@@ -4,79 +4,60 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 import android.util.Log;
-import android.view.View;
 
-import bliss.blissrecruitmentapp.model.Status;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.network.api.HealthClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import bliss.blissrecruitmentapp.network.repository.HealthRepository;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoadingActivityViewModel extends ViewModel{
-
-    // live data to notify activity to change
-    private MutableLiveData<Boolean> mServiceAvailable;
-
-    private final ObservableField<String> status = new ObservableField<>();
-    private final ObservableField<Boolean> loading = new ObservableField<>();
+    private final HealthRepository mHealthRepository; // service
+    private final MutableLiveData<Boolean> mIsServiceAvailable; // live data to notify activity to start intent
+    private final ObservableField<Boolean> loading; // waiting for request
 
 
     public LoadingActivityViewModel() {
-        this.status.set("Loading");
-        this.mServiceAvailable = new MutableLiveData<>();
-        checkHealth();
+        this.mHealthRepository = new HealthRepository();
+
+        this.loading = new ObservableField<>();
+        this.mIsServiceAvailable = new MutableLiveData<>();
+
+        this.checkHealth();
+
+
     }
 
-    public MutableLiveData<Boolean> getmServiceAvailable() {
-        if(mServiceAvailable == null){
-            mServiceAvailable = new MutableLiveData<>();
-        }
-        return mServiceAvailable;
+
+    public MutableLiveData<Boolean> getmIsServiceAvailable() {
+        return mIsServiceAvailable;
     }
 
-    // make a requester class
-    private void checkHealth(){
-        HealthClient healthClient = RetrofitInstance.getRetrofitInstance().create(HealthClient.class);
-        Call<Status> call = healthClient.health();
+
+    public void checkHealth(){
         loading.set(true);
 
-        call.enqueue(new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
-                status.set(response.body().getmStatus());
-                loading.set(false);
+        //TODO handle disposable
+        Disposable disposable = mHealthRepository.getHealth()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    if(data.code() == 200) {
+                        //go to Questions List Screen
+                        mIsServiceAvailable.setValue(true);
+                    }
 
-                if(response.code() == 200) {
-                    //go to Questions List Screen
-                    mServiceAvailable.setValue(true);
-                }
+                    loading.set(false);
+                }, throwable -> {
+                    //TODO refactor
+                    Log.d("debug", "error on request: " + throwable);
+                });
 
-                Log.d("debug", status.get());
-            }
-
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                //handle error
-            }
-        });
     }
 
-
-    public ObservableField<String> getStatus() {
-        return status;
-    }
 
     public ObservableField<Boolean> getLoading() {
         return loading;
     }
 
-    public View.OnClickListener refresh() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkHealth();
-            }
-        };
-    }
+
 }

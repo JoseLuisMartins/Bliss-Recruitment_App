@@ -7,6 +7,7 @@ public class Status {
     private String mStatus;
 
 
+
     public Status(String mStatus) {
         this.mStatus = mStatus;
     }
@@ -15,4 +16,5 @@ public class Status {
     public String getmStatus(){
         return mStatus;
     }
+
 }
