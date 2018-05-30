@@ -2,12 +2,13 @@ package bliss.blissrecruitmentapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Health {
+public class Status {
     @SerializedName("status")
     private String mStatus;
 
 
-    public Health(String mStatus) {
+
+    public Status(String mStatus) {
         this.mStatus = mStatus;
     }
 
@@ -15,4 +16,5 @@ public class Health {
     public String getmStatus(){
         return mStatus;
     }
+
 }

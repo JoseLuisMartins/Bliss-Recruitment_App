@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityLoadingBinding;
@@ -24,24 +25,24 @@ public class LoadingActivity extends AppCompatActivity {
 
         mContext = this;
 
-        // data binding
         ActivityLoadingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
 
         mLoadingViewModel = ViewModelProviders.of(this).get(LoadingActivityViewModel.class);
         binding.setLoadingViewModel(mLoadingViewModel);
 
-        final Observer<Boolean> successObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if(aBoolean){
-                   Intent intent = new Intent(mContext, QuestionList.class);
+        final Observer<Boolean> successObserver = (@Nullable Boolean success) -> {
+                if(success){
+                   Intent intent = new Intent(mContext, QuestionListActivity.class);
                    startActivity(intent);
+                   finish();
                 }
+            };
 
-            }
-        };
+        mLoadingViewModel.getmIsServiceAvailable().observe(this, successObserver);
+    }
 
-        mLoadingViewModel.getmServiceAvailable().observe(this, successObserver);
+    public void refresh(View v){
+        mLoadingViewModel.checkHealth();
     }
 
 
