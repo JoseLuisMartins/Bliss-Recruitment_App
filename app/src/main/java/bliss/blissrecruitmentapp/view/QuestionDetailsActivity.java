@@ -1,22 +1,25 @@
 package bliss.blissrecruitmentapp.view;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 
-public class QuestionDetails extends AppCompatActivity {
+public class QuestionDetailsActivity extends AppCompatActivity {
     private QuestionDetailsViewModel mQuestionDetailsViewModel;
     private ActivityQuestionDetailsBinding mBinding;
     private Context mContext;
@@ -39,6 +42,15 @@ public class QuestionDetails extends AppCompatActivity {
 
         mQuestionDetailsViewModel = ViewModelProviders.of(this, new QuestionDetailsViewModelFactory(question_id)).get(QuestionDetailsViewModel.class);
         mBinding.setQuestionDetailsViewModel(mQuestionDetailsViewModel);
+
+
+        // Setup feedback observer
+        final Observer<String> feedbackObserver = (@Nullable String feedback) -> {
+            Toast.makeText(mContext,feedback,Toast.LENGTH_SHORT).show();
+        };
+
+        mQuestionDetailsViewModel.getmFeedback().observe(this, feedbackObserver);
+
     }
 
     @Override
@@ -63,6 +75,10 @@ public class QuestionDetails extends AppCompatActivity {
         Intent intent = new Intent(mContext, ShareActivity.class);
         intent.putExtra(getString(R.string.question_filter), mQuestionDetailsViewModel.getAppLink());
         mContext.startActivity(intent);
+    }
+
+    public void initAnswersButtons() {
+        //mBinding.viewActivityQuestionDetailsRadioGroup.addView();
     }
 
 }

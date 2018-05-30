@@ -9,15 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import java.util.List;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.view.QuestionDetails;
+import bliss.blissrecruitmentapp.view.QuestionDetailsActivity;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
 
@@ -51,7 +49,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         ItemForQuestionListBinding itemBinding = holder.binding;
         itemBinding.setQuestion(mQuestions.get(position));
         itemBinding.viewItemForQuestionDetailsButton.setOnClickListener((View view) -> {
-                    Intent intent = new Intent(mContext, QuestionDetails.class);
+                    Intent intent = new Intent(mContext, QuestionDetailsActivity.class);
                     intent.putExtra(mContext.getString(R.string.question_id), mQuestions.get(position).getId());
                     mContext.startActivity(intent);
         });

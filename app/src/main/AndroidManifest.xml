@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.QuestionDetails"
+            android:name=".view.QuestionDetailsActivity"
             android:label="@string/title_activity_question_details"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".view.ShareActivity"></activity>

@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.network.repository;
+package bliss.blissrecruitmentapp.repository;
 
 import bliss.blissrecruitmentapp.model.Status;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;

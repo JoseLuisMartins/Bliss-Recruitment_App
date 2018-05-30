@@ -9,7 +9,7 @@ import java.util.List;
 
 import bliss.blissrecruitmentapp.Utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

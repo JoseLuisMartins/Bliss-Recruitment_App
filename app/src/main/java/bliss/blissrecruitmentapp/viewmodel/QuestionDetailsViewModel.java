@@ -1,11 +1,12 @@
 package bliss.blissrecruitmentapp.viewmodel;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 
 import bliss.blissrecruitmentapp.Utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -18,8 +19,10 @@ public class QuestionDetailsViewModel extends ViewModel{
     private final int mQuestionId;
     // live data to notify activity to update questions
     private final ObservableField<Question> mQuestion;
-    //waiting for request
+    // waiting for request
     private final ObservableField<Boolean> mLoading;
+    // feedback
+    private final MutableLiveData<String> mFeedback;
 
     // question request observer
     private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
@@ -48,6 +51,7 @@ public class QuestionDetailsViewModel extends ViewModel{
         this.mQuestionRepository = new QuestionRepository();
         this.mQuestion = new ObservableField<>();
         this.mLoading = new ObservableField<>();
+        this.mFeedback = new MutableLiveData<>();
 
         this.loadQuestion();
     }
@@ -55,10 +59,15 @@ public class QuestionDetailsViewModel extends ViewModel{
 
     public void loadQuestion(){
         mLoading.set(true);
+
         mQuestionRepository.getQuestion(mQuestionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mQuestionRequestObserver);
+    }
+
+    public ObservableField<Boolean> getLoading() {
+        return mLoading;
     }
 
     public ObservableField<Question> getQuestion() {
@@ -67,10 +76,20 @@ public class QuestionDetailsViewModel extends ViewModel{
 
     public void submitQuestion(){
         mLoading.set(true);
-        mQuestionRepository.updateQuestion(mQuestion.get())
+        Disposable disposable = mQuestionRepository.updateQuestion(mQuestion.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(); // TODO check onCompleted
+                .subscribe(() -> {
+                    mLoading.set(false);
+                    mFeedback.setValue("Question successfully updated");
+                }, throwable -> {
+                    mLoading.set(false);
+                    mFeedback.setValue("An error has occurred please try again");
+                });
+    }
+
+    public MutableLiveData<String> getmFeedback() {
+        return mFeedback;
     }
 
     public String getAppLink(){

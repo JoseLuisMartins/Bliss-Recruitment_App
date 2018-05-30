@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 import android.util.Log;
 
-import bliss.blissrecruitmentapp.network.repository.HealthRepository;
+import bliss.blissrecruitmentapp.repository.HealthRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
