@@ -37,7 +37,7 @@ public class QuestionDetailsViewModel extends ViewModel{
             //Notify activity about new incoming question data
             mQuestion.set(question);
 
-            mFeedback.setValue("");
+            mFeedback.setValue(null);
             mLoading.set(false);
         }
 
@@ -80,12 +80,7 @@ public class QuestionDetailsViewModel extends ViewModel{
     public void submitQuestion(int selectedChoice){
         //update question
         Choice c = mQuestion.get().getChoices().get(selectedChoice);
-
-        Log.d("debug", "old votes -> " +  c.getVotes());
-
         c.setVotes(c.getVotes() + 1);
-
-        Log.d("debug", "new votes -> " +  mQuestion.get().getChoices().get(selectedChoice).getVotes());
 
         //make request
         mLoading.set(true);

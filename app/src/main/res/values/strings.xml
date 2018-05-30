@@ -13,6 +13,9 @@
     <string name="lbl_question_activity_search">Search</string>
     <string name="title_activity_question_details">QuestionDetails</string>
 
+    <!-- details list -->
+    <string name="error_question_details_activity_no_answer">You must select an answer</string>
+
     <!-- ID -->
     <string name="question_id">question_id</string>
     <string name="question_filter">question_filter</string>
