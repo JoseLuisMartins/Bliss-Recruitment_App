@@ -18,4 +18,7 @@ public class Choice {
         return votes;
     }
 
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
 }

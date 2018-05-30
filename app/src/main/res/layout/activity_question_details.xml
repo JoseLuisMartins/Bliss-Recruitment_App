@@ -103,7 +103,7 @@
                     <RadioGroup
                         android:id="@+id/view_activity_question_details_radio_group"
                         android:layout_width="match_parent"
-                        android:layout_height="198dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -114,34 +114,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
                         app:layout_constraintVertical_bias="0.2">
-
-                        <RadioButton
-                            android:id="@+id/radioButton4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="RadioButton" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="RadioButton" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="RadioButton" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="RadioButton" />
 
                     </RadioGroup>
                 </LinearLayout>
@@ -156,7 +128,7 @@
                     android:layout_marginTop="180dp"
                     android:background="@color/color3"
                     android:elevation="0dp"
-                    android:onClick="submitQuestion"
+                    android:onClick="submitAnswer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.864"
                     app:layout_constraintStart_toStartOf="parent"

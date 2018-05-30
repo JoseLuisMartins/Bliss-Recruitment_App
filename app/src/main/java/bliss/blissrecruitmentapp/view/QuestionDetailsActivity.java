@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
+import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 
@@ -47,6 +49,7 @@ public class QuestionDetailsActivity extends AppCompatActivity {
         // Setup feedback observer
         final Observer<String> feedbackObserver = (@Nullable String feedback) -> {
             Toast.makeText(mContext,feedback,Toast.LENGTH_SHORT).show();
+            initAnswersButtons();
         };
 
         mQuestionDetailsViewModel.getmFeedback().observe(this, feedbackObserver);
@@ -67,8 +70,16 @@ public class QuestionDetailsActivity extends AppCompatActivity {
         mBinding.viewQuestionDetailsCard.startAnimation(animation);
     }
 
-    public void submitQuestion(View v) {
-        this.mQuestionDetailsViewModel.submitQuestion();
+    public void submitAnswer(View v) {
+
+        // Get choice
+        int checkId = mBinding.viewActivityQuestionDetailsRadioGroup.getCheckedRadioButtonId();
+        View checkView = mBinding.viewActivityQuestionDetailsRadioGroup.findViewById(checkId);
+        int choiceIndex = mBinding.viewActivityQuestionDetailsRadioGroup.indexOfChild(checkView);
+
+        if(choiceIndex != -1) {
+            this.mQuestionDetailsViewModel.submitQuestion(choiceIndex);
+        }
     }
 
     public void shareQuestion(View v) {
@@ -78,7 +89,16 @@ public class QuestionDetailsActivity extends AppCompatActivity {
     }
 
     public void initAnswersButtons() {
-        //mBinding.viewActivityQuestionDetailsRadioGroup.addView();
+        Question question = this.mQuestionDetailsViewModel.getQuestion().get();
+
+        mBinding.viewActivityQuestionDetailsRadioGroup.removeAllViews();
+
+        for (int i = 0; i < question.getChoices().size(); i++) {
+            RadioButton rb  = new RadioButton(this);
+            rb.setText(question.getChoices().get(i).getChoice());
+            mBinding.viewActivityQuestionDetailsRadioGroup.addView(rb);
+        }
+
     }
 
 }

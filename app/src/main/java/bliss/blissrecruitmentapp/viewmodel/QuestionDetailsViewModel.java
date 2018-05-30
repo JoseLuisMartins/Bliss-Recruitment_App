@@ -3,8 +3,10 @@ package bliss.blissrecruitmentapp.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import bliss.blissrecruitmentapp.Utils.Utils;
+import bliss.blissrecruitmentapp.model.Choice;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
@@ -35,6 +37,7 @@ public class QuestionDetailsViewModel extends ViewModel{
             //Notify activity about new incoming question data
             mQuestion.set(question);
 
+            mFeedback.setValue("");
             mLoading.set(false);
         }
 
@@ -74,7 +77,17 @@ public class QuestionDetailsViewModel extends ViewModel{
         return mQuestion;
     }
 
-    public void submitQuestion(){
+    public void submitQuestion(int selectedChoice){
+        //update question
+        Choice c = mQuestion.get().getChoices().get(selectedChoice);
+
+        Log.d("debug", "old votes -> " +  c.getVotes());
+
+        c.setVotes(c.getVotes() + 1);
+
+        Log.d("debug", "new votes -> " +  mQuestion.get().getChoices().get(selectedChoice).getVotes());
+
+        //make request
         mLoading.set(true);
         Disposable disposable = mQuestionRepository.updateQuestion(mQuestion.get())
                 .subscribeOn(Schedulers.io())
