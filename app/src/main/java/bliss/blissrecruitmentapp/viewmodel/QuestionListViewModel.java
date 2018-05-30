@@ -29,7 +29,7 @@ public class QuestionListViewModel extends ViewModel{
     private final ObservableField<Boolean> mSearching;
     private String mSearchFilter;
 
-    // question request consumer
+    // question request observer
     private SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
         @Override
         public void onSubscribe(Disposable d) {
