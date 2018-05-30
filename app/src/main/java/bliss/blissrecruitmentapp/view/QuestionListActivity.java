@@ -25,6 +25,7 @@ import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.adapter.QuestionListAdapter;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
+import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionListViewModel;
 
 
@@ -42,6 +43,9 @@ public class QuestionListActivity extends AppCompatActivity {
 
         //Context
         mContext = this;
+
+        // for network errors
+        RetrofitInstance.setmContext(mContext);
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_list);

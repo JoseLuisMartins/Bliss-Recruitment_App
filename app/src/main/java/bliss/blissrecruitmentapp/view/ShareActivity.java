@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityShareBinding;
+import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.repository.ShareRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -32,6 +33,9 @@ public class ShareActivity extends AppCompatActivity {
 
         mRepository = new ShareRepository();
         mContext=this;
+
+        // for network errors
+        RetrofitInstance.setmContext(mContext);
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_share);
@@ -53,7 +57,7 @@ public class ShareActivity extends AppCompatActivity {
             Toast.makeText(mContext,mContext.getString(R.string.lbl_share_activity_invalid_email),Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
 
         Disposable disposable = mRepository.shareApp(email, shareUrl)
             .subscribeOn(Schedulers.io())

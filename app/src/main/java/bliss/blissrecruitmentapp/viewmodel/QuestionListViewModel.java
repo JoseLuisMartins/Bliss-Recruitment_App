@@ -53,7 +53,8 @@ public class QuestionListViewModel extends ViewModel{
 
         @Override
         public void onError(Throwable e) {
-
+            Log.d("debug", "Error on question list request-> " + e);
+            mLoading.set(false);
         }
 
     };
