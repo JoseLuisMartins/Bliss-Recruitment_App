@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.network.repository;
+package bliss.blissrecruitmentapp.repository;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class QuestionRepository {
     }
 
     // Update question
-    private Completable updateQuestion(Question question){
+    public Completable updateQuestion(Question question){
         return mQuestionClient.updateQuestion(question.getId(), question);
     }
 }

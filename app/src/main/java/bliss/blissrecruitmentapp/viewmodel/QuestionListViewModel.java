@@ -3,13 +3,14 @@ package bliss.blissrecruitmentapp.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import bliss.blissrecruitmentapp.Utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -29,7 +30,7 @@ public class QuestionListViewModel extends ViewModel{
     private final ObservableField<Boolean> mSearching;
     private String mSearchFilter;
 
-    // question request consumer
+    // question request observer
     private SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
         @Override
         public void onSubscribe(Disposable d) {

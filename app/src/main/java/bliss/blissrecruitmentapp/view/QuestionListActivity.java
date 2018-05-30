@@ -51,7 +51,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
 
         //Create Recycler View Adapter
-        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<Question>(), mContext);
+        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), mContext);
         // Set Recycler View Adapter
         mBinding.viewActivityQuestionListRecycler.setAdapter(mQuestionListAdapter );
         mBinding.viewActivityQuestionListRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +64,7 @@ public class QuestionListActivity extends AppCompatActivity {
         final Observer<List<Question>> questionsObserver = (@Nullable List<Question> questions) -> {
                 if(questions != null) {
                     mQuestionListAdapter.setQuestions(questions);
-                    //Animation
+                    // Animation
                     LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
                     mBinding.viewActivityQuestionListRecycler.setLayoutAnimation(animationController);
                     mQuestionListAdapter.notifyDataSetChanged();
@@ -140,7 +140,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
     public void shareSearch(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
-        intent.putExtra(getString(R.string.question_filter), mQuestionListViewModel.getAppLink());
+        intent.putExtra(getString(R.string.share_url), mQuestionListViewModel.getAppLink());
         mContext.startActivity(intent);
     }
 

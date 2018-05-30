@@ -12,14 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.LoadingActivity">
+        <activity
+            android:name=".view.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.QuestionListActivity">
+
+        <activity
+            android:name=".view.QuestionListActivity">
 
             <!-- handle deep linking -->
             <intent-filter>
@@ -33,11 +36,27 @@
                     android:scheme="blissrecruitment" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".view.QuestionDetails"
+            android:name=".view.QuestionDetailsActivity"
             android:label="@string/title_activity_question_details"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".view.ShareActivity"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            <!-- handle deep linking -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="questions"
+                    android:scheme="blissrecruitment" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.ShareActivity">
+        </activity>
     </application>
 
 </manifest>
