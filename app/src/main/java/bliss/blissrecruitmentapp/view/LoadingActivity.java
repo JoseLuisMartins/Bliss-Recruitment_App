@@ -12,6 +12,7 @@ import android.view.View;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityLoadingBinding;
+import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.LoadingActivityViewModel;
 
 public class LoadingActivity extends AppCompatActivity {
@@ -24,6 +25,9 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = this;
+
+        // for network errors
+        RetrofitInstance.setmContext(mContext);
 
         ActivityLoadingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
 

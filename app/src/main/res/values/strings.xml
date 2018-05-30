@@ -23,13 +23,18 @@
     <string name="btn_share_activity_send">Send</string>
     <string name="lbl_share_activity_success">App link shared successfully</string>
     <string name="lbl_share_activity_fail">An error occurred, please try again</string>
+    <string name="lbl_share_activity_invalid_email">The specified email is not valid</string>
+
+    <!-- No connectivity -->
+    <string name="lbl_no_connectivity_activity_label">Please make sure that you are connected to the network</string>
+    <string name="btn_no_connectivity_activity_retry">Retry</string>
+    <string name="lbl_no_connectivity_activity_error">No connection</string>
 
 
     <!-- |ID| -->
     <string name="question_id">question_id</string>
     <string name="question_filter">question_filter</string>
     <string name="share_url">share_url</string>
-
 
 
 </resources>

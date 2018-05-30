@@ -25,6 +25,7 @@ import android.widget.Toast;
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.model.Question;
+import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 
@@ -38,6 +39,9 @@ public class QuestionDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = this;
+
+        // for network errors
+        RetrofitInstance.setmContext(mContext);
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_details);
@@ -84,6 +88,7 @@ public class QuestionDetailsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         this.runStartAnimation();
+        mQuestionDetailsViewModel.loadQuestion();
     }
 
     private void runStartAnimation() {

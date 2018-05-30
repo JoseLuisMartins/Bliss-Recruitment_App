@@ -47,9 +47,9 @@ public class LoadingActivityViewModel extends ViewModel{
                     }else{
                         loading.set(false);
                     }
-
+                    Log.d("debug", "res->" + data);
                 }, throwable -> {
-                    //TODO refactor
+                    loading.set(false);
                     Log.d("debug", "error on request: " + throwable);
                 });
 
