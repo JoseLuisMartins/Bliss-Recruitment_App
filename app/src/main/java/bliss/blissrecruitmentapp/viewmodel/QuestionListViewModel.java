@@ -7,6 +7,7 @@ import android.databinding.ObservableField;
 import java.util.ArrayList;
 import java.util.List;
 
+import bliss.blissrecruitmentapp.Utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
@@ -127,6 +128,11 @@ public class QuestionListViewModel extends ViewModel{
         return mLoading;
     }
 
+    public ObservableField<Boolean> getSearching() {
+        return mSearching;
+    }
 
-
+    public String getAppLink(){
+        return String.format("%s?question_filter=%s", Utils.APP_BASE_LINK, mSearchFilter);
+    }
 }

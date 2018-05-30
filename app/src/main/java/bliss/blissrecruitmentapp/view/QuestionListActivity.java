@@ -51,11 +51,11 @@ public class QuestionListActivity extends AppCompatActivity {
 
 
         //Create Recycler View Adapter
-        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), mContext);
+        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<Question>(), mContext);
         // Set Recycler View Adapter
         mBinding.viewActivityQuestionListRecycler.setAdapter(mQuestionListAdapter );
         mBinding.viewActivityQuestionListRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.viewActivityQuestionListRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
 
 
 
@@ -64,7 +64,7 @@ public class QuestionListActivity extends AppCompatActivity {
         final Observer<List<Question>> questionsObserver = (@Nullable List<Question> questions) -> {
                 if(questions != null) {
                     mQuestionListAdapter.setQuestions(questions);
-                    //test animation
+                    //Animation
                     LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
                     mBinding.viewActivityQuestionListRecycler.setLayoutAnimation(animationController);
                     mQuestionListAdapter.notifyDataSetChanged();
@@ -101,13 +101,10 @@ public class QuestionListActivity extends AppCompatActivity {
         mBinding.viewActivityQuestionListSearch.setIconified(false);
         mBinding.viewActivityQuestionListSearch.clearFocus();
 
-        mBinding.viewActivityQuestionListSearch.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
+        mBinding.viewActivityQuestionListSearch.setOnCloseListener(() -> {
                 Log.d("debug","on close");
                 mQuestionListViewModel.leaveSearchMode();
                 return false;
-            }
         });
 
 
@@ -143,6 +140,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
     public void shareSearch(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
+        intent.putExtra(getString(R.string.question_filter), mQuestionListViewModel.getAppLink());
         mContext.startActivity(intent);
     }
 
