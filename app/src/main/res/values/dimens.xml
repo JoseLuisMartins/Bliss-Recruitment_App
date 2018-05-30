@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Title -->
+
+    <dimen name="title1">50dp</dimen>
+    <dimen name="title2">40dp</dimen>
+    <dimen name="title3">30dp</dimen>
+
+    <!-- Content -->
+    <dimen name="content">20dp</dimen>
+
+    <!-- Padding/Margin -->
+    <dimen name="margin_big">20dp</dimen>
+
+</resources>
