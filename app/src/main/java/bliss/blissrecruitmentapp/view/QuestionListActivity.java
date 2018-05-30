@@ -14,6 +14,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
 
         //Create Recycler View Adapter
-        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), this);
+        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), mContext);
         // Set Recycler View Adapter
         mBinding.viewActivityQuestionListRecycler.setAdapter(mQuestionListAdapter );
         mBinding.viewActivityQuestionListRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -61,6 +64,11 @@ public class QuestionListActivity extends AppCompatActivity {
         final Observer<List<Question>> questionsObserver = (@Nullable List<Question> questions) -> {
                 if(questions != null) {
                     mQuestionListAdapter.setQuestions(questions);
+                    //test animation
+                    LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
+                    mBinding.viewActivityQuestionListRecycler.setLayoutAnimation(animationController);
+                    mQuestionListAdapter.notifyDataSetChanged();
+                    mBinding.viewActivityQuestionListRecycler.scheduleLayoutAnimation();
                 }
             };
 
@@ -133,11 +141,9 @@ public class QuestionListActivity extends AppCompatActivity {
         }
     }
 
-    public void goToDetailsScreen(int id){
-        Intent intent = new Intent(mContext, QuestionListActivity.class);
-        intent.putExtra(getString(R.string.question_id), id);
-        startActivity(intent);
+    public void shareSearch(View v) {
+        Intent intent = new Intent(mContext, ShareActivity.class);
+        mContext.startActivity(intent);
     }
-
 
 }

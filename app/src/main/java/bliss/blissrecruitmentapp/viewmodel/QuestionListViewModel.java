@@ -38,12 +38,14 @@ public class QuestionListViewModel extends ViewModel{
         public void onSuccess(List<Question> questions) {
             //Notify activity about new incoming question data
             List<Question> questionsTmp = mQuestions.getValue();
-            if(questionsTmp != null)
+            if(questionsTmp != null) {
                 mQuestions.getValue().addAll(questions);
-            else
+                // TODO better way of triggering activity?
+                mQuestions.setValue(mQuestions.getValue());
+            } else
                 mQuestions.setValue(questions);
 
-            //mQuestions.setValue();
+
             mLoading.set(false);
         }
 

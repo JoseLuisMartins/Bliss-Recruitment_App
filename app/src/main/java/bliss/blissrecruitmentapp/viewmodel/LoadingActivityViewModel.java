@@ -44,9 +44,10 @@ public class LoadingActivityViewModel extends ViewModel{
                     if(data.code() == 200) {
                         //go to Questions List Screen
                         mIsServiceAvailable.setValue(true);
+                    }else{
+                        loading.set(false);
                     }
 
-                    loading.set(false);
                 }, throwable -> {
                     //TODO refactor
                     Log.d("debug", "error on request: " + throwable);

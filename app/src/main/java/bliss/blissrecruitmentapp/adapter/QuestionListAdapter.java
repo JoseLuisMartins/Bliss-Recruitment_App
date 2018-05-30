@@ -1,6 +1,8 @@
 package bliss.blissrecruitmentapp.adapter;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +15,16 @@ import java.util.List;
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.view.QuestionListActivity;
+import bliss.blissrecruitmentapp.view.QuestionDetails;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
 
     private List<Question> mQuestions;
     // To Do use callback
-    private QuestionListActivity activity;
+    private Context mContext;
 
-    public QuestionListAdapter(List<Question> questions, QuestionListActivity activity) {
+    public QuestionListAdapter(List<Question> questions, Context context) {
+        this.mContext = context;
         this.mQuestions = questions;
     }
 
@@ -46,11 +49,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     public void onBindViewHolder(@NonNull QuestionListItemHolder holder, int position) {
         ItemForQuestionListBinding itemBinding = holder.binding;
         itemBinding.setQuestion(mQuestions.get(position));
-        itemBinding.viewItemForQuestionDetailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.goToDetailsScreen(mQuestions.get(position).getId());
-            }
+        itemBinding.viewItemForQuestionDetailsButton.setOnClickListener((View view) -> {
+                    Intent intent = new Intent(mContext, QuestionDetails.class);
+                    intent.putExtra(mContext.getString(R.string.question_id), mQuestions.get(position).getId());
+                    mContext.startActivity(intent);
         });
     }
 
