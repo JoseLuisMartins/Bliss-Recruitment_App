@@ -11,7 +11,7 @@ public class ShareRepository {
         this.mShareClient = RetrofitInstance.getRetrofitInstance().create(ShareClient.class);
     }
     // Update question
-    private Completable shareQuestion(String email, String url){
+    public Completable shareApp(String email, String url){
         return mShareClient.share(email, url);
     }
 }

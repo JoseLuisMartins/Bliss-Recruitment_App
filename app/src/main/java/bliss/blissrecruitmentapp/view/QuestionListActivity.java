@@ -140,7 +140,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
     public void shareSearch(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
-        intent.putExtra(getString(R.string.question_filter), mQuestionListViewModel.getAppLink());
+        intent.putExtra(getString(R.string.share_url), mQuestionListViewModel.getAppLink());
         mContext.startActivity(intent);
     }
 

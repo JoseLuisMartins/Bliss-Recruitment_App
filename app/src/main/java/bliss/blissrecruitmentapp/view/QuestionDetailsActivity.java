@@ -137,7 +137,7 @@ public class QuestionDetailsActivity extends AppCompatActivity {
 
     public void shareQuestion(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
-        intent.putExtra(getString(R.string.question_filter), mQuestionDetailsViewModel.getAppLink());
+        intent.putExtra(getString(R.string.share_url), mQuestionDetailsViewModel.getAppLink());
         mContext.startActivity(intent);
     }
 

@@ -13,12 +13,23 @@
     <string name="lbl_question_activity_search">Search</string>
     <string name="title_activity_question_details">QuestionDetails</string>
 
-    <!-- details list -->
+    <!-- details -->
     <string name="error_question_details_activity_no_answer">You must select an answer</string>
 
-    <!-- ID -->
+    <!-- share -->
+    <string name="lbl_share_activity_sharing">Sharing</string>
+    <string name="lbl_share_activity_share_with">Share to</string>
+    <string name="lbl_share_activity_enter_email">Please specify the receivers email </string>
+    <string name="btn_share_activity_send">Send</string>
+    <string name="lbl_share_activity_success">App link shared successfully</string>
+    <string name="lbl_share_activity_fail">An error occurred, please try again</string>
+
+
+    <!-- |ID| -->
     <string name="question_id">question_id</string>
     <string name="question_filter">question_filter</string>
+    <string name="share_url">share_url</string>
+
 
 
 </resources>
