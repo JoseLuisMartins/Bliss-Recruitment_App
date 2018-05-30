@@ -1,32 +1,34 @@
 package bliss.blissrecruitmentapp.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel;
+import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 
 public class QuestionDetails extends AppCompatActivity {
     private QuestionDetailsViewModel mQuestionDetailsViewModel;
     private ActivityQuestionDetailsBinding mBinding;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mContext = this;
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_details);
-
-        mQuestionDetailsViewModel = ViewModelProviders.of(this).get(QuestionDetailsViewModel.class);
-
 
 
         // Get Intent Data
@@ -35,7 +37,8 @@ public class QuestionDetails extends AppCompatActivity {
 
         Log.d("debug", "id-> " + question_id);
 
-
+        mQuestionDetailsViewModel = ViewModelProviders.of(this, new QuestionDetailsViewModelFactory(question_id)).get(QuestionDetailsViewModel.class);
+        mBinding.setQuestionDetailsViewModel(mQuestionDetailsViewModel);
     }
 
     @Override
@@ -50,6 +53,16 @@ public class QuestionDetails extends AppCompatActivity {
 
         mBinding.viewQuestionDetailsCard.clearAnimation();
         mBinding.viewQuestionDetailsCard.startAnimation(animation);
+    }
+
+    public void submitQuestion(View v) {
+        this.mQuestionDetailsViewModel.submitQuestion();
+    }
+
+    public void shareQuestion(View v) {
+        Intent intent = new Intent(mContext, ShareActivity.class);
+        intent.putExtra(getString(R.string.question_filter), mQuestionDetailsViewModel.getAppLink());
+        mContext.startActivity(intent);
     }
 
 }

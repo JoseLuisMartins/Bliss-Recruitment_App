@@ -32,7 +32,7 @@ public class QuestionRepository {
     }
 
     // Update question
-    private Completable updateQuestion(Question question){
+    public Completable updateQuestion(Question question){
         return mQuestionClient.updateQuestion(question.getId(), question);
     }
 }

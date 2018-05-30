@@ -10,4 +10,12 @@ public class Choice {
     @SerializedName("votes")
     private int votes;
 
+    public String getChoice() {
+        return choice;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
 }
