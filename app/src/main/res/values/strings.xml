@@ -15,6 +15,7 @@
 
     <!-- ID -->
     <string name="question_id">question_id</string>
+    <string name="question_filter">question_filter</string>
 
 
 </resources>

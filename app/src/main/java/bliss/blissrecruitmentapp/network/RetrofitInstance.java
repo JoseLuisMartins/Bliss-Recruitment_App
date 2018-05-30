@@ -7,8 +7,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static bliss.blissrecruitmentapp.Utils.Utils.API_BASE_URL;
+
 public class RetrofitInstance {
-    public static String API_BASE_URL = "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com";
+
     private static Retrofit retrofit;
 
 

@@ -56,6 +56,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:onClick="shareSearch"
+            android:visibility="@{questionListViewModel.searching ? View.VISIBLE : View.GONE}"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
