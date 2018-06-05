@@ -20,7 +20,7 @@ import bliss.blissrecruitmentapp.view.QuestionDetailsActivity;
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
 
     private List<Question> mQuestions;
-    // To Do use callback
+
     private Context mContext;
 
     public QuestionListAdapter(List<Question> questions, Context context) {
@@ -62,9 +62,9 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
 
     public class QuestionListItemHolder extends RecyclerView.ViewHolder {
 
-        private ItemForQuestionListBinding binding;
+        public ItemForQuestionListBinding binding;
 
-        public QuestionListItemHolder(ItemForQuestionListBinding binding) {
+        QuestionListItemHolder(ItemForQuestionListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

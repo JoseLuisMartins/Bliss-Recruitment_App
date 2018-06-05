@@ -15,7 +15,6 @@ public class QuestionRepository {
         this.mQuestionClient = RetrofitInstance.getRetrofitInstance().create(QuestionClient.class);
     }
 
-
     // Get question by id
     public Single<Question> getQuestion(int id){
         return mQuestionClient.getQuestionById(id);

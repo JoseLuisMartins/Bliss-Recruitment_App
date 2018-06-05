@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel;
+import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
 
 public class QuestionDetailsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private int mId;
@@ -16,6 +16,6 @@ public class QuestionDetailsViewModelFactory extends ViewModelProvider.NewInstan
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new QuestionDetailsViewModel(this.mId);
+        return (T) new QuestionDetailsActivityViewModel(this.mId);
     }
 }

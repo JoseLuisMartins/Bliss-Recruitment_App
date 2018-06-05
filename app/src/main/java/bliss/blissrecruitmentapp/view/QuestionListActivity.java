@@ -1,6 +1,5 @@
 package bliss.blissrecruitmentapp.view;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -9,30 +8,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import bliss.blissrecruitmentapp.R;
+import bliss.blissrecruitmentapp.Utils.Utils;
 import bliss.blissrecruitmentapp.adapter.QuestionListAdapter;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.viewmodel.QuestionListViewModel;
+import bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel;
 
 
 public class QuestionListActivity extends AppCompatActivity {
     private Context mContext;
     private ActivityQuestionListBinding mBinding;
-    private QuestionListViewModel mQuestionListViewModel;
+    private QuestionListActivityViewModel mQuestionListActivityViewModel;
     // recycler adapter
     private QuestionListAdapter mQuestionListAdapter;
 
@@ -47,75 +47,102 @@ public class QuestionListActivity extends AppCompatActivity {
         // for network errors
         RetrofitInstance.setmContext(mContext);
 
-        // data binding
+        //handle deep linking
+        Uri data = getIntent().getData();
+        Set<String> parameterNames;
+
+        if(data != null)
+            parameterNames = data.getQueryParameterNames();
+        else
+            parameterNames = new HashSet<>();
+
+
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_list);
 
-        mQuestionListViewModel = ViewModelProviders.of(this).get(QuestionListViewModel.class);
-        mBinding.setQuestionListViewModel(mQuestionListViewModel);
+        mQuestionListActivityViewModel = ViewModelProviders.of(this).get(QuestionListActivityViewModel.class);
+        mBinding.setQuestionListActivityViewModel(mQuestionListActivityViewModel);
 
+        this.initQuestionList();
+        this.initSearch();
 
-        //Create Recycler View Adapter
+        if (parameterNames.contains(Utils.APP_FILTER_PARAM)) {
+            mBinding.viewActivityQuestionListSearch.setQuery(data.getQueryParameter(Utils.APP_FILTER_PARAM),true);
+
+            if(data.getQueryParameter(Utils.APP_FILTER_PARAM).length() == 0)
+                mBinding.viewActivityQuestionListSearch.setIconified(false);
+
+        } else if(parameterNames.contains(Utils.APP_QUESTION_PARAM)) {
+            Intent intent = new Intent(mContext, QuestionDetailsActivity.class);
+            intent.putExtra(mContext.getString(R.string.question_id), Integer.parseInt(data.getQueryParameter(Utils.APP_QUESTION_PARAM)));
+            mContext.startActivity(intent);
+
+        } else {
+            mQuestionListActivityViewModel.loadQuestions();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!mQuestionListActivityViewModel.getLoading().get() && (mQuestionListActivityViewModel.getmQuestions().getValue() == null))
+            mQuestionListActivityViewModel.loadQuestions();
+    }
+
+    private void initQuestionList(){
         mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), mContext);
-        // Set Recycler View Adapter
-        mBinding.viewActivityQuestionListRecycler.setAdapter(mQuestionListAdapter );
-        mBinding.viewActivityQuestionListRecycler.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView questionsRecyclerView = mBinding.viewActivityQuestionListRecycler;
+        questionsRecyclerView.setAdapter(mQuestionListAdapter );
+        questionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        //Observe the questions data changes ----------------------
+        mQuestionListActivityViewModel.getmQuestions().observe(this, (@Nullable List<Question> questions) -> {
+            if(questions != null) {
+                mQuestionListAdapter.setQuestions(questions);
+                // Animation
+                LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
+                questionsRecyclerView .setLayoutAnimation(animationController);
+                mQuestionListAdapter.notifyDataSetChanged();
+                questionsRecyclerView .scheduleLayoutAnimation();
+            }
+        });
 
-
-        //Observer the questions data changes ----------------------
-
-        final Observer<List<Question>> questionsObserver = (@Nullable List<Question> questions) -> {
-                if(questions != null) {
-                    mQuestionListAdapter.setQuestions(questions);
-                    // Animation
-                    LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
-                    mBinding.viewActivityQuestionListRecycler.setLayoutAnimation(animationController);
-                    mQuestionListAdapter.notifyDataSetChanged();
-                    mBinding.viewActivityQuestionListRecycler.scheduleLayoutAnimation();
-                }
-            };
-
-        mQuestionListViewModel.getmQuestions().observe(this, questionsObserver);
-
-
-        mBinding.viewActivityQuestionListRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-
+        questionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
                     if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
-                        if (mQuestionListViewModel.checkHasMore()) {
-                            mQuestionListViewModel.loadNextQuestions();
+                        if (mQuestionListActivityViewModel.checkHasMore()) {
+                            mQuestionListActivityViewModel.loadNextQuestions();
                         }
                     }
 
                 }
             }
         });
-        //-------------------------------
+    }
 
-        // handle search
+    private void initSearch(){
+        SearchView searchView = mBinding.viewActivityQuestionListSearch;
+        searchView.setQueryHint(getString(R.string.lbl_question_activity_search));
+        searchView.onActionViewExpanded();
+        searchView.clearFocus();
 
-        mBinding.viewActivityQuestionListSearch.setActivated(true);
-        mBinding.viewActivityQuestionListSearch.setQueryHint(getString(R.string.lbl_question_activity_search));
-        mBinding.viewActivityQuestionListSearch.onActionViewExpanded();
-        mBinding.viewActivityQuestionListSearch.setIconified(false);
-        mBinding.viewActivityQuestionListSearch.clearFocus();
-
-        mBinding.viewActivityQuestionListSearch.setOnCloseListener(() -> {
-                Log.d("debug","on close");
-                mQuestionListViewModel.leaveSearchMode();
-                return false;
+        //Handle search mode exit
+        searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn).setOnClickListener((View v) -> {
+            mQuestionListActivityViewModel.leaveSearchMode();
+            searchView.setIconified(true);
+            searchView.clearFocus();
         });
 
-
-        mBinding.viewActivityQuestionListSearch.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        //Handle search submission
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mQuestionListViewModel.search(query);
+                mQuestionListActivityViewModel.search(query);
                 return false;
             }
 
@@ -124,28 +151,15 @@ public class QuestionListActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-        //deep link
-        Intent intent = getIntent();
-        Uri data = intent.getData();
-        if(data != null) {
-
-            String filter = data.getQueryParameter("question_filter");
-
-            if(filter != null) {
-                // set query and submit
-                mBinding.viewActivityQuestionListSearch.setQuery(filter, true);
-                // expand search
-                mBinding.viewActivityQuestionListSearch.setIconified(false);
-            }
-        }
     }
 
     public void shareSearch(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
-        intent.putExtra(getString(R.string.share_url), mQuestionListViewModel.getAppLink());
+        intent.putExtra(getString(R.string.share_url), mQuestionListActivityViewModel.getAppLink());
         mContext.startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 }
