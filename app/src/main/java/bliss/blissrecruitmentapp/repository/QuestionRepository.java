@@ -2,12 +2,15 @@ package bliss.blissrecruitmentapp.repository;
 
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.network.api.QuestionClient;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
+@Singleton
 public class QuestionRepository {
     private QuestionClient mQuestionClient;
 
