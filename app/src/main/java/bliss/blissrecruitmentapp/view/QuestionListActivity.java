@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import bliss.blissrecruitmentapp.R;
-import bliss.blissrecruitmentapp.Utils.Utils;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.adapter.QuestionListAdapter;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;

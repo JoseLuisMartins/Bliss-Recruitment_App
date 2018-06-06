@@ -9,7 +9,7 @@ import bliss.blissrecruitmentapp.view.NoConnectivityActivity;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
-import static bliss.blissrecruitmentapp.Utils.Utils.isConnected;
+import static bliss.blissrecruitmentapp.utils.Utils.isConnected;
 
 public class NetworkConnectionChecker implements Interceptor {
     private Context mContext;

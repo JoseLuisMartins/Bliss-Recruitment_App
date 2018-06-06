@@ -12,13 +12,13 @@ import android.widget.Toast;
 import java.util.regex.Pattern;
 
 import bliss.blissrecruitmentapp.R;
-import bliss.blissrecruitmentapp.Utils.Utils;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.databinding.ActivityShareBinding;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.ShareActivityViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.ShareActivityViewModelFactory;
 
-import static bliss.blissrecruitmentapp.Utils.Utils.EMAIL_REGEX;
+import static bliss.blissrecruitmentapp.utils.Utils.EMAIL_REGEX;
 
 public class ShareActivity extends AppCompatActivity {
     private ActivityShareBinding mBinding;
@@ -46,8 +46,12 @@ public class ShareActivity extends AppCompatActivity {
         //Observe the questions data changes ----------------------
         mShareActivityViewModel.getSuccessResponse().observe(this, (@Nullable Boolean success) -> {
             if(success != null){
-                String msg = success ? getString(R.string.lbl_share_activity_success) : getString(R.string.error_share_activity_fail);
-                Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
+                if(success) {
+                    Toast.makeText(mContext,getString(R.string.lbl_share_activity_success) ,Toast.LENGTH_SHORT).show();
+                    mBinding.activityShareMailEditText.setText("");
+                }else {
+                    Toast.makeText(mContext,getString(R.string.error_share_activity_fail) ,Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

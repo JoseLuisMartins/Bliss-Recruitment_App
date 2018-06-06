@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static bliss.blissrecruitmentapp.Utils.Utils.API_BASE_URL;
+import static bliss.blissrecruitmentapp.utils.Utils.API_BASE_URL;
 
 public class RetrofitInstance {
 

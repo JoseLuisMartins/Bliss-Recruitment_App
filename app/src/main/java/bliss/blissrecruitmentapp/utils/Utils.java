@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.Utils;
+package bliss.blissrecruitmentapp.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
