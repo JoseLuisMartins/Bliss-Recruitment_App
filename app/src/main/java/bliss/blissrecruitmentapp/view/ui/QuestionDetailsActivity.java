@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view;
+package bliss.blissrecruitmentapp.view.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -24,7 +24,7 @@ import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 
-public class QuestionDetailsActivity extends AppCompatActivity {
+public class QuestionDetailsActivity extends AppCompatActivity  {
     private QuestionDetailsActivityViewModel mQuestionDetailsActivityViewModel;
     private ActivityQuestionDetailsBinding mBinding;
     private Context mContext;
@@ -36,7 +36,7 @@ public class QuestionDetailsActivity extends AppCompatActivity {
         mContext = this;
 
         // for network errors
-        RetrofitInstance.setmContext(mContext);
+        RetrofitInstance.setContext(mContext);
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_details);

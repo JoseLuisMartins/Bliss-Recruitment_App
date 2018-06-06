@@ -2,6 +2,7 @@ package bliss.blissrecruitmentapp.repository;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bliss.blissrecruitmentapp.model.Question;
@@ -14,8 +15,9 @@ import io.reactivex.Single;
 public class QuestionRepository {
     private QuestionClient mQuestionClient;
 
-    public QuestionRepository() {
-        this.mQuestionClient = RetrofitInstance.getRetrofitInstance().create(QuestionClient.class);
+    @Inject
+    public QuestionRepository(QuestionClient questionClient) {
+        this.mQuestionClient = questionClient;
     }
 
     // Get question by id
@@ -33,7 +35,6 @@ public class QuestionRepository {
         return mQuestionClient.getQuestions(limit,offset, filter);
     }
 
-    // Update question
     public Completable updateQuestion(Question question){
         return mQuestionClient.updateQuestion(question.getId(), question);
     }

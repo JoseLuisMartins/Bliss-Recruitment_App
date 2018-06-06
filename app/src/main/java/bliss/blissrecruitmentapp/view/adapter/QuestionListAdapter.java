@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.adapter;
+package bliss.blissrecruitmentapp.view.adapter;
 
 
 import android.content.Context;
@@ -15,7 +15,7 @@ import java.util.List;
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.view.QuestionDetailsActivity;
+import bliss.blissrecruitmentapp.view.ui.QuestionDetailsActivity;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
 

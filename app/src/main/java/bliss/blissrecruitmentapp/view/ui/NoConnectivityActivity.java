@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view;
+package bliss.blissrecruitmentapp.view.ui;
 
 
 import android.content.Context;

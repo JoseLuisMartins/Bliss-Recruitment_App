@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import java.io.IOException;
 
-import bliss.blissrecruitmentapp.view.NoConnectivityActivity;
+import bliss.blissrecruitmentapp.view.ui.NoConnectivityActivity;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 

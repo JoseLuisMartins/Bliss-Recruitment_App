@@ -42,7 +42,7 @@ public class RetrofitInstance {
         return retrofit;
     }
 
-    public static void setmContext(Context mContext) {
+    public static void setContext(Context mContext) {
         RetrofitInstance.mContext = mContext;
 
         if(mNetworkConnectionChecker != null)

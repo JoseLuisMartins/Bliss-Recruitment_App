@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
@@ -56,11 +58,12 @@ public class QuestionListActivityViewModel extends ViewModel{
 
     };
 
-    public QuestionListActivityViewModel() {
+    @Inject
+    public QuestionListActivityViewModel(QuestionRepository questionRepository) {
+        this.mQuestionRepository = questionRepository;
         this.mQuestions = new MutableLiveData<>();
         this.mLoading = new ObservableField<>();
         this.mSearching = new ObservableField<>();
-        this.mQuestionRepository = new QuestionRepository();
 
         this.mLimit = 10;
         this.mOffset = 0;

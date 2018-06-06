@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 
+import javax.inject.Inject;
+
 import bliss.blissrecruitmentapp.repository.ShareRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -16,11 +18,12 @@ public class ShareActivityViewModel extends ViewModel{
     private final ObservableField<Boolean> mLoading;
     private final String mUrl;
 
-    public ShareActivityViewModel(String url) {
-        this.mShareRepository = new ShareRepository();
+    @Inject
+    public ShareActivityViewModel(String url, ShareRepository shareRepository) {
+        this.mShareRepository = shareRepository;
+        this.mUrl = url;
         this.mSuccessResponse = new MutableLiveData<>();
         this.mLoading = new ObservableField<>();
-        this.mUrl = url;
 
     }
 

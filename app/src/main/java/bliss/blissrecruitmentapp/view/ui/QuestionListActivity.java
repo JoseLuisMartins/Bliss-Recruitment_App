@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view;
+package bliss.blissrecruitmentapp.view.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -22,7 +22,7 @@ import java.util.Set;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.adapter.QuestionListAdapter;
+import bliss.blissrecruitmentapp.view.adapter.QuestionListAdapter;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
@@ -45,7 +45,7 @@ public class QuestionListActivity extends AppCompatActivity {
         mContext = this;
 
         // for network errors
-        RetrofitInstance.setmContext(mContext);
+        RetrofitInstance.setContext(mContext);
 
         //handle deep linking
         Uri data = getIntent().getData();

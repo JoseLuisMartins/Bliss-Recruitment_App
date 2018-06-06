@@ -44,10 +44,10 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
 
     };
 
-    public QuestionDetailsActivityViewModel(int questionId) {
+    public QuestionDetailsActivityViewModel(QuestionRepository questionRepository, int questionId) {
         this.mQuestionId = questionId;
 
-        this.mQuestionRepository = new QuestionRepository();
+        this.mQuestionRepository = questionRepository;
         this.mQuestion = new ObservableField<>();
         this.mLoading = new ObservableField<>();
         this.mQuestionLoaded = new MutableLiveData<>();

@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view;
+package bliss.blissrecruitmentapp.view.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -33,7 +33,7 @@ public class ShareActivity extends AppCompatActivity {
         mContext=this;
 
         // for network errors
-        RetrofitInstance.setmContext(mContext);
+        RetrofitInstance.setContext(mContext);
 
         shareUrl = getIntent().getStringExtra(getString(R.string.share_url));
 

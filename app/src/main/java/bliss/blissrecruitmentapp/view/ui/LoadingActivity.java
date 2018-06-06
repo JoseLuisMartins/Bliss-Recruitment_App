@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view;
+package bliss.blissrecruitmentapp.view.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -27,7 +27,7 @@ public class LoadingActivity extends AppCompatActivity {
         mContext = this;
 
         // for network errors
-        RetrofitInstance.setmContext(mContext);
+        RetrofitInstance.setContext(mContext);
 
         ActivityLoadingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
 
