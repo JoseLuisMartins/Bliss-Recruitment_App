@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.LoadingActivity">
+        <activity
+            android:name=".view.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,23 +36,10 @@
         </activity>
         <activity
             android:name=".view.QuestionDetailsActivity"
-            android:label="@string/title_activity_question_details"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-            <!-- handle deep linking -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="questions"
-                    android:scheme="blissrecruitment" />
-            </intent-filter>
+            android:label="@string/title_activity_question_details">
         </activity>
-        <activity android:name=".view.ShareActivity"></activity>
-        <activity android:name=".view.NoConnectivityActivity"></activity>
+        <activity android:name=".view.ShareActivity"/>
+        <activity android:name=".view.NoConnectivityActivity"/>
     </application>
 
 </manifest>

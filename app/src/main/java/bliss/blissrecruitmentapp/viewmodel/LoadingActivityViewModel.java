@@ -11,15 +11,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoadingActivityViewModel extends ViewModel{
-    private final HealthRepository mHealthRepository; // service
-    private final MutableLiveData<Boolean> mIsServiceAvailable; // live data to notify activity to start intent
-    private final ObservableField<Boolean> loading; // waiting for request
+    private final HealthRepository mHealthRepository;
+    private final MutableLiveData<Boolean> mIsServiceAvailable;
+    private final ObservableField<Boolean> mLoading;
 
 
     public LoadingActivityViewModel() {
         this.mHealthRepository = new HealthRepository();
 
-        this.loading = new ObservableField<>();
+        this.mLoading = new ObservableField<>();
         this.mIsServiceAvailable = new MutableLiveData<>();
 
         this.checkHealth();
@@ -34,9 +34,8 @@ public class LoadingActivityViewModel extends ViewModel{
 
 
     public void checkHealth(){
-        loading.set(true);
+        mLoading.set(true);
 
-        //TODO handle disposable
         Disposable disposable = mHealthRepository.getHealth()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,19 +44,17 @@ public class LoadingActivityViewModel extends ViewModel{
                         //go to Questions List Screen
                         mIsServiceAvailable.setValue(true);
                     }else{
-                        loading.set(false);
+                        mLoading.set(false);
                     }
-                    Log.d("debug", "res->" + data);
                 }, throwable -> {
-                    loading.set(false);
+                    mLoading.set(false);
                     Log.d("debug", "error on request: " + throwable);
                 });
-
     }
 
 
     public ObservableField<Boolean> getLoading() {
-        return loading;
+        return mLoading;
     }
 
 

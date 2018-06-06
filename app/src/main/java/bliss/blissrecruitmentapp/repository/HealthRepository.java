@@ -13,7 +13,6 @@ public class HealthRepository {
         this.mHealthClient = RetrofitInstance.getRetrofitInstance().create(HealthClient.class);
     }
 
-
     public Single<Response<Status>>  getHealth(){
         return mHealthClient.health();
     }

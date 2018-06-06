@@ -7,14 +7,20 @@
     <string name="lbl_loading_activity__loading">Loading</string>
     <string name="btn_loading_activity_refresh">Refresh</string>
     <string name="error_loading_activity_health">Service unavailable at the moment</string>
+    <string name="lbl_loading_activity_img_description">App logo image</string>
 
     <!-- question list -->
     <string name="hint_question_activity_search_query">Search query</string>
     <string name="lbl_question_activity_search">Search</string>
     <string name="title_activity_question_details">QuestionDetails</string>
+    <string name="error_activity_question_update_success">Question successfully updated</string>
+    <string name="lbl_activity_question_update_error">An error has occurred while updating question, please try again</string>
 
     <!-- details -->
     <string name="error_question_details_activity_no_answer">You must select an answer</string>
+    <string name="error_question_details_activity_no_question">An error occurred loading the desired question</string>
+    <string name="lbl_question_details_activity_img_description">Question image</string>
+    <string name="lbl_question_details_activity_send_img_description"> Image for submitting question</string>
 
     <!-- share -->
     <string name="lbl_share_activity_sharing">Sharing</string>
@@ -22,19 +28,30 @@
     <string name="lbl_share_activity_enter_email">Please specify the receivers email </string>
     <string name="btn_share_activity_send">Send</string>
     <string name="lbl_share_activity_success">App link shared successfully</string>
-    <string name="lbl_share_activity_fail">An error occurred, please try again</string>
+    <string name="error_share_activity_fail">An error occurred, please try again</string>
     <string name="lbl_share_activity_invalid_email">The specified email is not valid</string>
+    <string name="lbl_share_activity_invalid_share_img_description">Share icon</string>
 
     <!-- No connectivity -->
     <string name="lbl_no_connectivity_activity_label">Please make sure that you are connected to the network</string>
     <string name="btn_no_connectivity_activity_retry">Retry</string>
     <string name="lbl_no_connectivity_activity_error">No connection</string>
+    <string name="lbl_no_connectivity_activity_img_description">Error image</string>
+
+    <!-- question list item -->
+    <string name="lbl_item_for_question_list_thumbnail_description">Thumbnail description</string>
+    <string name="lbl_item_for_question_list_details_button_description">Expand button</string>
 
 
     <!-- |ID| -->
     <string name="question_id">question_id</string>
     <string name="question_filter">question_filter</string>
     <string name="share_url">share_url</string>
+
+
+    <!-- General -->
+    <string name="lbl_share_img_description">Share image</string>
+
 
 
 </resources>

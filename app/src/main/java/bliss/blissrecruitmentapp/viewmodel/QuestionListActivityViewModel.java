@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import bliss.blissrecruitmentapp.Utils.Utils;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import io.reactivex.SingleObserver;
@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class QuestionListViewModel extends ViewModel{
+public class QuestionListActivityViewModel extends ViewModel{
 
     // the repository
     private QuestionRepository mQuestionRepository;
@@ -24,9 +24,7 @@ public class QuestionListViewModel extends ViewModel{
     private final MutableLiveData<List<Question>> mQuestions;
     // Paging data
     private int mOffset, mLimit;
-    //waiting for request
     private final ObservableField<Boolean> mLoading;
-    //search
     private final ObservableField<Boolean> mSearching;
     private String mSearchFilter;
 
@@ -42,7 +40,6 @@ public class QuestionListViewModel extends ViewModel{
             List<Question> questionsTmp = mQuestions.getValue();
             if(questionsTmp != null) {
                 mQuestions.getValue().addAll(questions);
-                // TODO better way of triggering activity?
                 mQuestions.setValue(mQuestions.getValue());
             } else
                 mQuestions.setValue(questions);
@@ -59,7 +56,7 @@ public class QuestionListViewModel extends ViewModel{
 
     };
 
-    public QuestionListViewModel() {
+    public QuestionListActivityViewModel() {
         this.mQuestions = new MutableLiveData<>();
         this.mLoading = new ObservableField<>();
         this.mSearching = new ObservableField<>();
@@ -68,14 +65,9 @@ public class QuestionListViewModel extends ViewModel{
         this.mLimit = 10;
         this.mOffset = 0;
 
-        mSearching.set(false);
-        mLoading.set(true);
+        this.mSearching.set(false);
+        this.mLoading.set(false);
 
-        //TODO initial mode could be searching, handle that
-        mQuestionRepository.getQuestions(mLimit, mOffset)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mQuestionsRequestObserver);
     }
 
 
@@ -84,9 +76,7 @@ public class QuestionListViewModel extends ViewModel{
     }
 
 
-
-    public void loadNextQuestions() {
-        this.mOffset +=this.mLimit;
+    public void loadQuestions(){
         mLoading.set(true);
 
         if(mSearching.get())
@@ -101,6 +91,10 @@ public class QuestionListViewModel extends ViewModel{
                     .subscribe(mQuestionsRequestObserver);
     }
 
+    public void loadNextQuestions() {
+        this.mOffset +=this.mLimit;
+        this.loadQuestions();
+    }
 
 
     public void search(String search) {
@@ -109,17 +103,14 @@ public class QuestionListViewModel extends ViewModel{
         this.mQuestions.setValue(new ArrayList<>());
         this.mOffset = 0;
 
-        mLoading.set(true);
-        mQuestionRepository.getQuestions(mLimit, mOffset, search)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mQuestionsRequestObserver);
+        this.loadQuestions();
     }
 
     public void leaveSearchMode() {
         this.mOffset = 0;
         this.mSearching.set(false);
         this.mQuestions.setValue(new ArrayList<>());
+        this.loadQuestions();
     }
 
     public MutableLiveData<List<Question>> getmQuestions() {
@@ -135,6 +126,6 @@ public class QuestionListViewModel extends ViewModel{
     }
 
     public String getAppLink(){
-        return String.format("%s?question_filter=%s", Utils.APP_BASE_LINK, mSearchFilter);
+        return String.format("%s?%s=%s", Utils.APP_BASE_LINK, Utils.APP_FILTER_PARAM, mSearchFilter);
     }
 }

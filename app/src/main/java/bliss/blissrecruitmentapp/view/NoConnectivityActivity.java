@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import bliss.blissrecruitmentapp.R;
 
-import static bliss.blissrecruitmentapp.Utils.Utils.isConnected;
+import static bliss.blissrecruitmentapp.utils.Utils.isConnected;
 
 public class NoConnectivityActivity extends AppCompatActivity {
     private Context mContext;

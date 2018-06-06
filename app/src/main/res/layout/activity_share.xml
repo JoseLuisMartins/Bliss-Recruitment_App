@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View" />
+
         <variable
-            name="url"
-            type="String" />
+            name="shareActivityViewModel"
+            type="bliss.blissrecruitmentapp.viewmodel.ShareActivityViewModel" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -15,15 +17,29 @@
         app:cardElevation="10dp"
         >
 
+
+        <ProgressBar
+            android:id="@+id/activity_share_Progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:layout_gravity="center"
+            android:visibility="@{safeUnbox(shareActivityViewModel.loading) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{safeUnbox(shareActivityViewModel.loading) ? View.GONE : View.VISIBLE}"
             android:orientation="vertical">
 
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:contentDescription="@string/lbl_share_activity_invalid_share_img_description"
                 app:srcCompat="@android:drawable/ic_menu_share" />
 
             <TextView
@@ -38,11 +54,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/space_medium"
                 android:gravity="center"
-                android:textSize="@dimen/content"
+                android:textSize="@dimen/content1"
                 android:background="@color/grey"
-                android:layout_marginBottom="@dimen/margin_big"
-                android:text="@{url}" />
+                android:layout_marginBottom="@dimen/space_big"
+                android:text="@{shareActivityViewModel.url}" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -50,11 +67,11 @@
                 android:textSize="@dimen/title3"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_marginBottom="@dimen/margin_big"
+                android:layout_marginBottom="@dimen/space_big"
                 android:text="@string/lbl_share_activity_share_with" />
 
             <EditText
-                android:id="@+id/view_activity_share_mail_edittext"
+                android:id="@+id/activity_share_mail_EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/lbl_share_activity_enter_email"
@@ -63,7 +80,6 @@
 
 
             <Button
-                android:id="@+id/view_item_for_question_details_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_share_activity_send"

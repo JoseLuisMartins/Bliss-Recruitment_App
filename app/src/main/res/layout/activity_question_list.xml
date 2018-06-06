@@ -4,8 +4,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="questionListViewModel"
-            type="bliss.blissrecruitmentapp.viewmodel.QuestionListViewModel" />
+            name="questionListActivityViewModel"
+            type="bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -15,12 +15,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <android.support.v7.widget.SearchView
             android:id="@+id/view_activity_question_list_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,20 +43,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
-            android:visibility="@{questionListViewModel.loading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(questionListActivityViewModel.loading) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:onClick="shareSearch"
-            android:visibility="@{questionListViewModel.searching ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(questionListActivityViewModel.searching) ? View.VISIBLE : View.GONE}"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

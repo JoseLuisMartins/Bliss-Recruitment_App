@@ -3,9 +3,8 @@ package bliss.blissrecruitmentapp.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
-import android.util.Log;
 
-import bliss.blissrecruitmentapp.Utils.Utils;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.model.Choice;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
@@ -14,17 +13,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class QuestionDetailsViewModel extends ViewModel{
-    // the repository
+public class QuestionDetailsActivityViewModel extends ViewModel{
     private QuestionRepository mQuestionRepository;
-    // Question id
     private final int mQuestionId;
-    // live data to notify activity to update questions
     private final ObservableField<Question> mQuestion;
-    // waiting for request
     private final ObservableField<Boolean> mLoading;
-    // feedback
-    private final MutableLiveData<String> mFeedback;
+    private final MutableLiveData<Boolean> mQuestionLoaded;
+    private final MutableLiveData<Boolean> mUpdatedSuccessfully;
+
 
     // question request observer
     private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
@@ -36,26 +32,26 @@ public class QuestionDetailsViewModel extends ViewModel{
         public void onSuccess(Question question) {
             //Notify activity about new incoming question data
             mQuestion.set(question);
-
-            mFeedback.setValue(null);
+            mQuestionLoaded.setValue(true);
             mLoading.set(false);
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.d("debug", "Error on question details request-> " + e);
+            mQuestionLoaded.setValue(false);
             mLoading.set(false);
         }
 
     };
 
-    public QuestionDetailsViewModel(int questionId) {
+    public QuestionDetailsActivityViewModel(int questionId) {
         this.mQuestionId = questionId;
 
         this.mQuestionRepository = new QuestionRepository();
         this.mQuestion = new ObservableField<>();
         this.mLoading = new ObservableField<>();
-        this.mFeedback = new MutableLiveData<>();
+        this.mQuestionLoaded = new MutableLiveData<>();
+        this.mUpdatedSuccessfully = new MutableLiveData<>();
     }
 
 
@@ -88,18 +84,22 @@ public class QuestionDetailsViewModel extends ViewModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     mLoading.set(false);
-                    mFeedback.setValue("Question successfully updated");
+                    mUpdatedSuccessfully.setValue(true);
                 }, throwable -> {
                     mLoading.set(false);
-                    mFeedback.setValue("An error has occurred please try again");
+                    mUpdatedSuccessfully.setValue(false);
                 });
     }
 
-    public MutableLiveData<String> getmFeedback() {
-        return mFeedback;
+    public MutableLiveData<Boolean> getUpdatedSuccessfully() {
+        return mUpdatedSuccessfully;
+    }
+
+    public MutableLiveData<Boolean> getmQuestionLoaded() {
+        return mQuestionLoaded;
     }
 
     public String getAppLink(){
-        return String.format("%s?question_id=%d", Utils.APP_BASE_LINK, this.mQuestionId);
+        return String.format("%s?%s=%d", Utils.APP_BASE_LINK, Utils.APP_QUESTION_PARAM, this.mQuestionId);
     }
 }
