@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -27,9 +26,10 @@ import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel;
+import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class QuestionListActivity extends AppCompatActivity {
+public class QuestionListActivity extends DaggerAppCompatActivity {
     private Context mContext;
     private ActivityQuestionListBinding mBinding;
     private QuestionListActivityViewModel mQuestionListActivityViewModel;

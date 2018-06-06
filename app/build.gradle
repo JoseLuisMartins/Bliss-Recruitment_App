@@ -40,7 +40,7 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //dagger
+    //dagger 2
     implementation 'com.google.dagger:dagger:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     implementation 'com.google.dagger:dagger-android-support:2.11'

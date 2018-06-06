@@ -28,7 +28,6 @@ public class LoadingActivityViewModel extends ViewModel{
 
         this.checkHealth();
 
-
     }
 
 

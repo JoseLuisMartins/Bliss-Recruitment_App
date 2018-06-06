@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.databinding.ActivityShareBinding;
@@ -26,6 +28,9 @@ public class ShareActivity extends AppCompatActivity {
     private ShareActivityViewModel mShareActivityViewModel;
     private String shareUrl;
 
+    @Inject
+    ShareActivityViewModelFactory viewModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +44,7 @@ public class ShareActivity extends AppCompatActivity {
 
         // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_share);
-        mShareActivityViewModel = ViewModelProviders.of(this, new ShareActivityViewModelFactory(shareUrl)).get(ShareActivityViewModel.class);
+        mShareActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShareActivityViewModel.class);
 
         mBinding.setShareActivityViewModel(mShareActivityViewModel);
 

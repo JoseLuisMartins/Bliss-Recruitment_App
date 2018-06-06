@@ -2,16 +2,16 @@ package bliss.blissrecruitmentapp.view.ui;
 
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import bliss.blissrecruitmentapp.R;
+import dagger.android.support.DaggerAppCompatActivity;
 
 import static bliss.blissrecruitmentapp.utils.Utils.isConnected;
 
-public class NoConnectivityActivity extends AppCompatActivity {
+public class NoConnectivityActivity extends DaggerAppCompatActivity {
     private Context mContext;
 
     @Override

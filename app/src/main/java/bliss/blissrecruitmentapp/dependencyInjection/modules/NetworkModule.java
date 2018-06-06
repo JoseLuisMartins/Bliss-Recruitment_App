@@ -3,10 +3,12 @@ package bliss.blissrecruitmentapp.dependencyInjection.modules;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;
 
+import bliss.blissrecruitmentapp.dependencyInjection.components.ApplicationComponent;
 import bliss.blissrecruitmentapp.network.interceptors.NetworkConnectionChecker;
 import dagger.Module;
 import dagger.Provides;
@@ -39,6 +41,7 @@ public class NetworkModule {
 
         return okHttpClientBuilder.build();
     }
+
 
 
     @Provides

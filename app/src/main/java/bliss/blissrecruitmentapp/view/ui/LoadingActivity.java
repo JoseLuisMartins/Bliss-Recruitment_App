@@ -7,15 +7,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityLoadingBinding;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.LoadingActivityViewModel;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class LoadingActivity extends AppCompatActivity {
+public class LoadingActivity extends DaggerAppCompatActivity{
 
     private LoadingActivityViewModel mLoadingViewModel;
     private Context mContext;

@@ -14,6 +14,8 @@ import retrofit2.Retrofit;
 })
 public class ApplicationModule {
 
+
+
     @Provides
     @Singleton
     HealthClient provideHealthClient(Retrofit retrofit) {

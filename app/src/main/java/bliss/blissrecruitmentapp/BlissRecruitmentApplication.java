@@ -1,13 +1,18 @@
 package bliss.blissrecruitmentapp;
 
-import android.app.Application;
+import bliss.blissrecruitmentapp.dependencyInjection.components.DaggerApplicationComponent;
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 
-public class BlissRecruitmentApplication extends Application {
+public class BlissRecruitmentApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
+    }
 
-
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerApplicationComponent.builder().create(this);
     }
 }

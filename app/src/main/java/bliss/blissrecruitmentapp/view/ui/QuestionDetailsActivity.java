@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +16,23 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
 import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class QuestionDetailsActivity extends AppCompatActivity  {
+public class QuestionDetailsActivity extends DaggerAppCompatActivity {
     private QuestionDetailsActivityViewModel mQuestionDetailsActivityViewModel;
     private ActivityQuestionDetailsBinding mBinding;
     private Context mContext;
+
+    @Inject
+    QuestionDetailsViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class QuestionDetailsActivity extends AppCompatActivity  {
             return;
         }
 
-        mQuestionDetailsActivityViewModel = ViewModelProviders.of(this, new QuestionDetailsViewModelFactory(question_id)).get(QuestionDetailsActivityViewModel.class);
+        mQuestionDetailsActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(QuestionDetailsActivityViewModel.class);
         mBinding.setLifecycleOwner(this);
         mBinding.setQuestionDetailsActivityViewModel(mQuestionDetailsActivityViewModel);
 

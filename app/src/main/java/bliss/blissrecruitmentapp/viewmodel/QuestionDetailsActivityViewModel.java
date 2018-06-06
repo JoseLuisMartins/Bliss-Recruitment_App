@@ -2,12 +2,16 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.databinding.ObservableField;
+
+import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.model.Choice;
 import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -44,6 +48,7 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
 
     };
 
+    @Inject
     public QuestionDetailsActivityViewModel(QuestionRepository questionRepository, int questionId) {
         this.mQuestionId = questionId;
 

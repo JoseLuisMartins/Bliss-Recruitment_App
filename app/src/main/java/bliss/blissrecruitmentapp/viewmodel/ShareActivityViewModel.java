@@ -19,7 +19,7 @@ public class ShareActivityViewModel extends ViewModel{
     private final String mUrl;
 
     @Inject
-    public ShareActivityViewModel(String url, ShareRepository shareRepository) {
+    public ShareActivityViewModel(ShareRepository shareRepository, String url) {
         this.mShareRepository = shareRepository;
         this.mUrl = url;
         this.mSuccessResponse = new MutableLiveData<>();
