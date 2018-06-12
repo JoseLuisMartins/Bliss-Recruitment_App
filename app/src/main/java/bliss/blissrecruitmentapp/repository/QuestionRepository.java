@@ -5,9 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.network.api.QuestionClient;
+import bliss.blissrecruitmentapp.data.api.endpoints.QuestionClient;
+import bliss.blissrecruitmentapp.data.api.model.Question;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -20,17 +19,16 @@ public class QuestionRepository {
         this.mQuestionClient = questionClient;
     }
 
-    // Get question by id
+
     public Single<Question> getQuestion(int id){
         return mQuestionClient.getQuestionById(id);
     }
 
-    // Get questions
+
     public Single<List<Question>> getQuestions(int limit, int offset){
         return mQuestionClient.getQuestions(limit,offset);
     }
 
-    // Get questions with search field
     public Single<List<Question>> getQuestions(int limit, int offset, String filter){
         return mQuestionClient.getQuestions(limit,offset, filter);
     }

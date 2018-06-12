@@ -1,5 +1,6 @@
 package bliss.blissrecruitmentapp.view.ui;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -14,17 +15,17 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import bliss.blissrecruitmentapp.R;
+import bliss.blissrecruitmentapp.data.api.model.Question;
+import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.view.adapter.QuestionListAdapter;
-import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
-import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
 import bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel;
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -33,19 +34,21 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
     private Context mContext;
     private ActivityQuestionListBinding mBinding;
     private QuestionListActivityViewModel mQuestionListActivityViewModel;
-    // recycler adapter
-    private QuestionListAdapter mQuestionListAdapter;
 
+    @Inject
+    LinearLayoutManager mQuestionListLayoutManager;
+
+    @Inject
+    QuestionListAdapter mQuestionListAdapter;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Context
         mContext = this;
-
-        // for network errors
-        RetrofitInstance.setContext(mContext);
 
         //handle deep linking
         Uri data = getIntent().getData();
@@ -59,8 +62,9 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
 
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_list);
+        mBinding.setLifecycleOwner(this);
 
-        mQuestionListActivityViewModel = ViewModelProviders.of(this).get(QuestionListActivityViewModel.class);
+        mQuestionListActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(QuestionListActivityViewModel.class);
         mBinding.setQuestionListActivityViewModel(mQuestionListActivityViewModel);
 
         this.initQuestionList();
@@ -80,32 +84,31 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         } else {
             mQuestionListActivityViewModel.loadQuestions();
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(!mQuestionListActivityViewModel.getLoading().get() && (mQuestionListActivityViewModel.getmQuestions().getValue() == null))
+        if(!mQuestionListActivityViewModel.getLoading().getValue() && (mQuestionListActivityViewModel.getmQuestions().getValue() == null))
             mQuestionListActivityViewModel.loadQuestions();
     }
 
+
     private void initQuestionList(){
-        mQuestionListAdapter = new QuestionListAdapter(new ArrayList<>(), mContext);
         RecyclerView questionsRecyclerView = mBinding.viewActivityQuestionListRecycler;
-        questionsRecyclerView.setAdapter(mQuestionListAdapter );
-        questionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        questionsRecyclerView.setAdapter(mQuestionListAdapter);
+        questionsRecyclerView.setLayoutManager(mQuestionListLayoutManager);
 
 
-        //Observe the questions data changes ----------------------
+        //Observe the questions data changes
         mQuestionListActivityViewModel.getmQuestions().observe(this, (@Nullable List<Question> questions) -> {
             if(questions != null) {
-                mQuestionListAdapter.setQuestions(questions);
-                // Animation
+                // perform animation
                 LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
-                questionsRecyclerView .setLayoutAnimation(animationController);
-                mQuestionListAdapter.notifyDataSetChanged();
-                questionsRecyclerView .scheduleLayoutAnimation();
+                questionsRecyclerView.setLayoutAnimation(animationController);
+                questionsRecyclerView.scheduleLayoutAnimation();
+
+                mQuestionListAdapter.setQuestions(questions);
             }
         });
 
@@ -119,7 +122,6 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
                             mQuestionListActivityViewModel.loadNextQuestions();
                         }
                     }
-
                 }
             }
         });

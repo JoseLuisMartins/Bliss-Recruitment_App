@@ -3,8 +3,7 @@ package bliss.blissrecruitmentapp.repository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.network.api.ShareClient;
+import bliss.blissrecruitmentapp.data.api.endpoints.ShareClient;
 import io.reactivex.Completable;
 
 @Singleton

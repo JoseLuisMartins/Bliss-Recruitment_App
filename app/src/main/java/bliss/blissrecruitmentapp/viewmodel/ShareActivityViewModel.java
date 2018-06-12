@@ -2,10 +2,10 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
 
 import javax.inject.Inject;
 
+import bliss.blissrecruitmentapp.di.qualifiers.ShareUrl;
 import bliss.blissrecruitmentapp.repository.ShareRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -15,29 +15,29 @@ import io.reactivex.schedulers.Schedulers;
 public class ShareActivityViewModel extends ViewModel{
     private final ShareRepository mShareRepository;
     private final MutableLiveData<Boolean> mSuccessResponse;
-    private final ObservableField<Boolean> mLoading;
+    private final MutableLiveData<Boolean> mLoading;
     private final String mUrl;
 
     @Inject
-    public ShareActivityViewModel(ShareRepository shareRepository, String url) {
+    public ShareActivityViewModel(ShareRepository shareRepository, @ShareUrl String url) {
         this.mShareRepository = shareRepository;
         this.mUrl = url;
         this.mSuccessResponse = new MutableLiveData<>();
-        this.mLoading = new ObservableField<>();
+        this.mLoading = new MutableLiveData<>();
 
     }
 
     public void shareContent(String email) {
-        mLoading.set(true);
+        mLoading.setValue(true);
 
         Disposable disposable = mShareRepository.shareApp(email, this.mUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    mLoading.set(false);
+                    mLoading.setValue(false);
                     this.mSuccessResponse.setValue(true);
                 }, throwable -> {
-                    mLoading.set(false);
+                    mLoading.setValue(false);
                     this.mSuccessResponse.setValue(false);
                 });
     }
@@ -50,7 +50,7 @@ public class ShareActivityViewModel extends ViewModel{
         return mUrl;
     }
 
-    public ObservableField<Boolean> getLoading() {
+    public MutableLiveData<Boolean> getLoading() {
         return mLoading;
     }
 

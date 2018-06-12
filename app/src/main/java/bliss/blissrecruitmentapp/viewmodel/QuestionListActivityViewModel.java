@@ -2,17 +2,15 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.model.Question;
+import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.utils.Utils;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -20,15 +18,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class QuestionListActivityViewModel extends ViewModel{
 
-    // the repository
     private QuestionRepository mQuestionRepository;
-    // live data to notify activity to update questions
+
     private final MutableLiveData<List<Question>> mQuestions;
+    private final MutableLiveData<Boolean> mLoading;
+    private final MutableLiveData<Boolean> mSearching;
+    private String mSearchFilter;
     // Paging data
     private int mOffset, mLimit;
-    private final ObservableField<Boolean> mLoading;
-    private final ObservableField<Boolean> mSearching;
-    private String mSearchFilter;
+
 
     // question request observer
     private SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
@@ -47,13 +45,12 @@ public class QuestionListActivityViewModel extends ViewModel{
                 mQuestions.setValue(questions);
 
 
-            mLoading.set(false);
+            mLoading.setValue(false);
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.d("debug", "Error on question list request-> " + e);
-            mLoading.set(false);
+            mLoading.setValue(false);
         }
 
     };
@@ -62,14 +59,14 @@ public class QuestionListActivityViewModel extends ViewModel{
     public QuestionListActivityViewModel(QuestionRepository questionRepository) {
         this.mQuestionRepository = questionRepository;
         this.mQuestions = new MutableLiveData<>();
-        this.mLoading = new ObservableField<>();
-        this.mSearching = new ObservableField<>();
+        this.mLoading = new MutableLiveData<>();
+        this.mSearching = new MutableLiveData<>();
 
         this.mLimit = 10;
         this.mOffset = 0;
 
-        this.mSearching.set(false);
-        this.mLoading.set(false);
+        this.mSearching.setValue(false);
+        this.mLoading.setValue(false);
 
     }
 
@@ -80,9 +77,9 @@ public class QuestionListActivityViewModel extends ViewModel{
 
 
     public void loadQuestions(){
-        mLoading.set(true);
+        mLoading.setValue(true);
 
-        if(mSearching.get())
+        if(mSearching.getValue())
             mQuestionRepository.getQuestions(mLimit, mOffset, mSearchFilter)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -102,7 +99,7 @@ public class QuestionListActivityViewModel extends ViewModel{
 
     public void search(String search) {
         this.mSearchFilter = search;
-        this.mSearching.set(true);
+        this.mSearching.setValue(true);
         this.mQuestions.setValue(new ArrayList<>());
         this.mOffset = 0;
 
@@ -111,7 +108,7 @@ public class QuestionListActivityViewModel extends ViewModel{
 
     public void leaveSearchMode() {
         this.mOffset = 0;
-        this.mSearching.set(false);
+        this.mSearching.setValue(false);
         this.mQuestions.setValue(new ArrayList<>());
         this.loadQuestions();
     }
@@ -120,11 +117,11 @@ public class QuestionListActivityViewModel extends ViewModel{
         return mQuestions;
     }
 
-    public ObservableField<Boolean> getLoading() {
+    public MutableLiveData<Boolean> getLoading() {
         return mLoading;
     }
 
-    public ObservableField<Boolean> getSearching() {
+    public MutableLiveData<Boolean> getSearching() {
         return mSearching;
     }
 

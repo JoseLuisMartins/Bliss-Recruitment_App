@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import bliss.blissrecruitmentapp.R;
+import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
-import bliss.blissrecruitmentapp.model.Question;
 import bliss.blissrecruitmentapp.view.ui.QuestionDetailsActivity;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
@@ -22,6 +22,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     private List<Question> mQuestions;
 
     private Context mContext;
+
 
     public QuestionListAdapter(List<Question> questions, Context context) {
         this.mContext = context;
@@ -33,6 +34,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemCount() {
+        return mQuestions.size();
+    }
 
     @NonNull
     @Override
@@ -55,10 +60,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return mQuestions.size();
-    }
+
 
     public class QuestionListItemHolder extends RecyclerView.ViewHolder {
 

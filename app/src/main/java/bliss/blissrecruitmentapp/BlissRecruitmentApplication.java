@@ -1,8 +1,9 @@
 package bliss.blissrecruitmentapp;
 
-import bliss.blissrecruitmentapp.dependencyInjection.components.DaggerApplicationComponent;
+import bliss.blissrecruitmentapp.di.components.DaggerApplicationComponent;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+
 
 public class BlissRecruitmentApplication extends DaggerApplication {
 

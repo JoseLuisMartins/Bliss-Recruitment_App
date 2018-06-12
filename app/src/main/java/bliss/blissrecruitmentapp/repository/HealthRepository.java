@@ -3,9 +3,8 @@ package bliss.blissrecruitmentapp.repository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bliss.blissrecruitmentapp.model.Status;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.network.api.HealthClient;
+import bliss.blissrecruitmentapp.data.api.model.Status;
+import bliss.blissrecruitmentapp.data.api.endpoints.HealthClient;
 import io.reactivex.Single;
 import retrofit2.Response;
 

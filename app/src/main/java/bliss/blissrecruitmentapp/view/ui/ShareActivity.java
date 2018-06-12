@@ -1,11 +1,11 @@
 package bliss.blissrecruitmentapp.view.ui;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,22 +14,23 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.R;
-import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.databinding.ActivityShareBinding;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
+import bliss.blissrecruitmentapp.di.qualifiers.ShareUrl;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.viewmodel.ShareActivityViewModel;
-import bliss.blissrecruitmentapp.viewmodel.factories.ShareActivityViewModelFactory;
+import dagger.Lazy;
+import dagger.android.support.DaggerAppCompatActivity;
 
 import static bliss.blissrecruitmentapp.utils.Utils.EMAIL_REGEX;
 
-public class ShareActivity extends AppCompatActivity {
+public class ShareActivity extends DaggerAppCompatActivity {
     private ActivityShareBinding mBinding;
     private Context mContext;
     private ShareActivityViewModel mShareActivityViewModel;
-    private String shareUrl;
+    private String mShareUrl;
 
     @Inject
-    ShareActivityViewModelFactory viewModelFactory;
+    Lazy<ViewModelProvider.Factory> viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +38,16 @@ public class ShareActivity extends AppCompatActivity {
 
         mContext=this;
 
-        // for network errors
-        RetrofitInstance.setContext(mContext);
+        mShareUrl = getIntent().getStringExtra(getString(R.string.share_url));
 
-        shareUrl = getIntent().getStringExtra(getString(R.string.share_url));
 
-        // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_share);
-        mShareActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShareActivityViewModel.class);
+        mBinding.setLifecycleOwner(this);
 
+        mShareActivityViewModel = ViewModelProviders.of(this, viewModelFactory.get()).get(ShareActivityViewModel.class);
         mBinding.setShareActivityViewModel(mShareActivityViewModel);
 
-        //Observe the questions data changes ----------------------
+        //Observe the questions data changes
         mShareActivityViewModel.getSuccessResponse().observe(this, (@Nullable Boolean success) -> {
             if(success != null){
                 if(success) {
@@ -77,5 +76,10 @@ public class ShareActivity extends AppCompatActivity {
 
         mShareActivityViewModel.shareContent(email);
         Utils.hideFocusKeyboard(mContext, mBinding.activityShareMailEditText);
+    }
+
+    @ShareUrl
+    public String getShareUrl() {
+        return mShareUrl;
     }
 }

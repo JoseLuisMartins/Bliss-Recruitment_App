@@ -14,25 +14,25 @@
 
         <ImageView
             android:id="@+id/activity_loading_ImageView"
-            android:scaleType="fitCenter"
-            android:layout_width="176dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/lbl_question_details_activity_img_description"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/activity_loading_ProgressBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bliss_logo" />
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <ProgressBar
             android:id="@+id/activity_loading_ProgressBar"
             style="?android:attr/progressBarStyle"
-            android:layout_width="44dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -47,36 +47,36 @@
 
         <TextView
             android:id="@+id/activity_loading_TextView"
-            android:background="@color/white"
-            android:gravity="center_vertical|center_horizontal"
-            android:textSize="18sp"
-            android:text="@string/error_loading_activity_health"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/error_loading_activity_health"
+            android:textSize="18sp"
             android:visibility="@{safeUnbox(loadingViewModel.loading) ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/activity_loading_Button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_loading_ProgressBar" />
 
 
         <Button
             android:id="@+id/activity_loading_Button"
-            android:text="@string/btn_loading_activity_refresh"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
-            android:layout_height="61dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="28dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:background="@color/color4"
             android:onClick="refresh"
             android:padding="20dp"
+            android:text="@string/btn_loading_activity_refresh"
+            android:textColor="@color/white"
             android:visibility="@{safeUnbox(loadingViewModel.loading) ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

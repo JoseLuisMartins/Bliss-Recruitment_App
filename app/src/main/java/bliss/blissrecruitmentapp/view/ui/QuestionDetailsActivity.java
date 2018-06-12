@@ -1,29 +1,27 @@
 package bliss.blissrecruitmentapp.view.ui;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.R;
+import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
-import bliss.blissrecruitmentapp.model.Question;
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
+import bliss.blissrecruitmentapp.di.qualifiers.QuestionId;
+import bliss.blissrecruitmentapp.view.adapter.QuestionChoicesAdapter;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
-import bliss.blissrecruitmentapp.viewmodel.factories.QuestionDetailsViewModelFactory;
+import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class QuestionDetailsActivity extends DaggerAppCompatActivity {
@@ -31,8 +29,18 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
     private ActivityQuestionDetailsBinding mBinding;
     private Context mContext;
 
+
+    private int mQuestionId;
+
     @Inject
-    QuestionDetailsViewModelFactory viewModelFactory;
+    QuestionChoicesAdapter questionChoicesAdapter;
+
+    @Inject
+    LinearLayoutManager linearLayoutManager;
+
+    @Inject
+    Lazy<ViewModelProvider.Factory> viewModelFactory;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,45 +48,44 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
 
         mContext = this;
 
-        // for network errors
-        RetrofitInstance.setContext(mContext);
-
-        // data binding
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_details);
+        mBinding.setLifecycleOwner(this);
+
+        mQuestionId = getIntent().getIntExtra(getString(R.string.question_id),-1);
 
 
-        // Get Intent Data
-        int question_id = getIntent().getIntExtra(getString(R.string.question_id),-1);
-
-        if(question_id == -1) {
+        if(mQuestionId == -1) {
             Toast.makeText(mContext, getString(R.string.error_question_details_activity_no_question), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        mQuestionDetailsActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(QuestionDetailsActivityViewModel.class);
+
+        mQuestionDetailsActivityViewModel = ViewModelProviders.of(this, viewModelFactory.get()).get(QuestionDetailsActivityViewModel.class);
         mBinding.setLifecycleOwner(this);
         mBinding.setQuestionDetailsActivityViewModel(mQuestionDetailsActivityViewModel);
 
 
+        // Init recycler view
+        mBinding.activityQuestionDetailsQuestionRecyclerView.setAdapter(questionChoicesAdapter);
+        mBinding.activityQuestionDetailsQuestionRecyclerView.setLayoutManager(linearLayoutManager);
+        mBinding.activityQuestionDetailsQuestionRecyclerView.setNestedScrollingEnabled(false);
 
 
-        // Init answers when question loaded
-        mQuestionDetailsActivityViewModel.getmQuestionLoaded().observe(this, (@Nullable Boolean success) -> {
-            if(success != null && success) {
-                initAnswersButtons();
+        // Update question choices
+        mQuestionDetailsActivityViewModel.getQuestion().observe(this, (@Nullable Question question) -> {
+            if(question != null) {
+                questionChoicesAdapter.setChoices(question.getChoices());
             }
         });
 
 
-        // Show feedback when question updated
+        // Show feedback when question is updated
         mQuestionDetailsActivityViewModel.getUpdatedSuccessfully().observe(this,  (@Nullable Boolean success) -> {
             if(success != null) {
                 String msg = success ? getString(R.string.error_activity_question_update_success) : getString(R.string.lbl_activity_question_update_error);
                 Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
-                initAnswersButtons();
             }
         });
-
     }
 
     @Override
@@ -96,46 +103,11 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
         mBinding.viewQuestionDetailsCard.startAnimation(animation);
     }
 
+
     public void submitAnswer(View v) {
-
-        // Get choice
-        int checkId = mBinding.activityQuestionDetailsRadioGroup.getCheckedRadioButtonId();
-        View checkView = mBinding.activityQuestionDetailsRadioGroup.findViewById(checkId);
-        int choiceIndex = mBinding.activityQuestionDetailsRadioGroup.indexOfChild(checkView);
-
-        // nothing selected
-        if(choiceIndex == -1) {
-            Toast.makeText(mContext, getString(R.string.error_question_details_activity_no_answer), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // divide by two because of the text view associated with each radio button
-        choiceIndex /=2;
-        this.mQuestionDetailsActivityViewModel.submitQuestion(choiceIndex);
-
+        this.mQuestionDetailsActivityViewModel.submitQuestion(questionChoicesAdapter.getLastSelectedPosition());
     }
 
-
-    public void initAnswersButtons() {
-        Question question = this.mQuestionDetailsActivityViewModel.getQuestion().get();
-
-        if(question == null)
-            return;
-
-        mBinding.activityQuestionDetailsRadioGroup.removeAllViews();
-
-        for (int i = 0; i < question.getChoices().size(); i++) {
-            RadioButton rb  = new RadioButton(this);
-            rb.setText(question.getChoices().get(i).getChoice());
-            mBinding.activityQuestionDetailsRadioGroup.addView(rb);
-
-            TextView tv = new TextView(mContext);
-            tv.setLayoutParams(new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            tv.setGravity(Gravity.END);
-            tv.setText(String.format("Votes: %d", question.getChoices().get(i).getVotes()));
-            mBinding.activityQuestionDetailsRadioGroup.addView(tv);
-        }
-    }
 
     public void shareQuestion(View v) {
         Intent intent = new Intent(mContext, ShareActivity.class);
@@ -143,5 +115,8 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
         mContext.startActivity(intent);
     }
 
-
+    @QuestionId
+    public int getQuestionId() {
+        return mQuestionId;
+    }
 }
