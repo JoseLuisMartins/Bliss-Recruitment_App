@@ -13,31 +13,32 @@
         android:background="@color/color3">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="176dp"
-            android:layout_height="116dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/activity_loading_ImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/lbl_question_details_activity_img_description"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/progressBar"
+            app:layout_constraintBottom_toTopOf="@+id/activity_loading_ProgressBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bliss_logo" />
+            app:srcCompat="@drawable/ic_trophy" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/activity_loading_ProgressBar"
             style="?android:attr/progressBarStyle"
-            android:layout_width="44dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:visibility="@{loadingViewModel.loading ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{safeUnbox(loadingViewModel.loading) ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,29 +46,29 @@
             app:layout_constraintVertical_bias="0.64" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/activity_loading_TextView"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:background="@color/white"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="18sp"
             android:text="@string/error_loading_activity_health"
-            android:visibility="@{loadingViewModel.loading ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            android:textSize="18sp"
+            android:visibility="@{safeUnbox(loadingViewModel.loading) ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/activity_loading_Button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_loading_ProgressBar" />
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/activity_loading_Button"
             android:layout_width="wrap_content"
-            android:layout_height="61dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="28dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -76,7 +77,7 @@
             android:padding="20dp"
             android:text="@string/btn_loading_activity_refresh"
             android:textColor="@color/white"
-            android:visibility="@{loadingViewModel.loading ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{safeUnbox(loadingViewModel.loading) ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"

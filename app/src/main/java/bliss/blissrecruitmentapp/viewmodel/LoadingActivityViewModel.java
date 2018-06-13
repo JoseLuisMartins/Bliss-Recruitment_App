@@ -2,29 +2,30 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
-import android.util.Log;
+
+import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.repository.HealthRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoadingActivityViewModel extends ViewModel{
-    private final HealthRepository mHealthRepository; // service
-    private final MutableLiveData<Boolean> mIsServiceAvailable; // live data to notify activity to start intent
-    private final ObservableField<Boolean> loading; // waiting for request
+    private final HealthRepository mHealthRepository;
+    private final MutableLiveData<Boolean> mIsServiceAvailable;
+    private final MutableLiveData<Boolean> mLoading;
+    private CompositeDisposable mCompositeDisposable;
 
 
-    public LoadingActivityViewModel() {
-        this.mHealthRepository = new HealthRepository();
+    @Inject
+    public LoadingActivityViewModel(HealthRepository healthRepository, CompositeDisposable compositeDisposable) {
+        this.mHealthRepository = healthRepository;
+        this.mCompositeDisposable = compositeDisposable;
 
-        this.loading = new ObservableField<>();
+        this.mLoading = new MutableLiveData<>();
         this.mIsServiceAvailable = new MutableLiveData<>();
 
         this.checkHealth();
-
-
     }
 
 
@@ -34,10 +35,9 @@ public class LoadingActivityViewModel extends ViewModel{
 
 
     public void checkHealth(){
-        loading.set(true);
+        mLoading.setValue(true);
 
-        //TODO handle disposable
-        Disposable disposable = mHealthRepository.getHealth()
+        mCompositeDisposable.add(mHealthRepository.getHealth()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {
@@ -45,19 +45,22 @@ public class LoadingActivityViewModel extends ViewModel{
                         //go to Questions List Screen
                         mIsServiceAvailable.setValue(true);
                     }else{
-                        loading.set(false);
+                        mLoading.setValue(false);
                     }
-                    Log.d("debug", "res->" + data);
                 }, throwable -> {
-                    loading.set(false);
-                    Log.d("debug", "error on request: " + throwable);
-                });
+                    mLoading.setValue(false);
+                }));
 
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
 
-    public ObservableField<Boolean> getLoading() {
-        return loading;
+    public MutableLiveData<Boolean> getLoading() {
+        return mLoading;
     }
 
 

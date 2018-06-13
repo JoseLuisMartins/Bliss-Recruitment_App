@@ -2,8 +2,8 @@
 <layout>
     <data>
         <import type="android.view.View" />
-        <import type="bliss.blissrecruitmentapp.model.Question" />
-        <variable name="questionDetailsViewModel" type="bliss.blissrecruitmentapp.viewmodel.QuestionDetailsViewModel"/>
+        <import type="bliss.blissrecruitmentapp.data.api.model.Question" />
+        <variable name="questionDetailsActivityViewModel" type="bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel"/>
     </data>
 
 
@@ -19,12 +19,12 @@
 
 
         <ProgressBar
-            android:id="@+id/view_activity_question_details_progress"
+            android:id="@+id/activity_question_details_Progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
             android:layout_gravity="center"
-            android:visibility="@{questionDetailsViewModel.loading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(questionDetailsActivityViewModel.loading) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -35,92 +35,76 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:visibility="@{questionDetailsViewModel.loading ? View.GONE : View.VISIBLE}"
+            android:visibility="@{safeUnbox(questionDetailsActivityViewModel.loading) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_text_TextView">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".view.QuestionDetailsActivity">
+                tools:context=".view.ui.QuestionDetailsActivity">
 
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/activity_question_details_ImageView"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{((Question)(questionDetailsViewModel.question)).image_url}"
+                    android:contentDescription="@string/lbl_question_details_activity_img_description"
+                    app:imageUrl="@{((Question)(questionDetailsActivityViewModel.question)).image_url}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@color/color4" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/activity_question_details_question_date_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="32dp"
-                    android:text="@{((Question)(questionDetailsViewModel.question)).published_at.substring(0,10)}"
+                    android:text="@{((Question)(questionDetailsActivityViewModel.question)).published_at.substring(0,10)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_question_details_ImageView" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/activity_question_details_question_text_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@{((Question)(questionDetailsViewModel.question)).question}"
-                    android:textSize="30dp"
+                    android:text="@{((Question)(questionDetailsActivityViewModel.question)).question}"
+                    android:textSize="@dimen/title3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_date_TextView" />
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/activity_question_details_question_RecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView">
-
-                    <RadioGroup
-                        android:id="@+id/view_activity_question_details_radio_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        app:layout_constraintVertical_bias="0.2">
-
-                    </RadioGroup>
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_text_TextView" />
 
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/activity_question_details_ImageButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
@@ -129,6 +113,7 @@
                     android:background="@color/color3"
                     android:elevation="0dp"
                     android:onClick="submitAnswer"
+                    android:contentDescription="@string/lbl_question_details_activity_send_img_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.864"
                     app:layout_constraintStart_toStartOf="parent"

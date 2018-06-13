@@ -6,20 +6,21 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".BlissRecruitmentApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.LoadingActivity">
+        <activity
+            android:name=".view.ui.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.QuestionListActivity">
+        <activity android:name=".view.ui.QuestionListActivity">
 
             <!-- handle deep linking -->
             <intent-filter>
@@ -34,24 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.QuestionDetailsActivity"
-            android:label="@string/title_activity_question_details"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-            <!-- handle deep linking -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="questions"
-                    android:scheme="blissrecruitment" />
-            </intent-filter>
+            android:name=".view.ui.QuestionDetailsActivity"
+            android:label="@string/title_activity_question_details">
         </activity>
-        <activity android:name=".view.ShareActivity"></activity>
-        <activity android:name=".view.NoConnectivityActivity"></activity>
+        <activity android:name=".view.ui.ShareActivity"/>
+        <activity android:name=".view.ui.NoConnectivityActivity"/>
     </application>
 
 </manifest>

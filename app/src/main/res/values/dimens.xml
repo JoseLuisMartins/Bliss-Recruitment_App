@@ -3,14 +3,20 @@
 
     <!-- Title -->
 
-    <dimen name="title1">50dp</dimen>
-    <dimen name="title2">40dp</dimen>
-    <dimen name="title3">30dp</dimen>
+    <dimen name="title1">40sp</dimen>
+    <dimen name="title2">30sp</dimen>
+    <dimen name="title3">20sp</dimen>
+    <dimen name="title4">15sp</dimen>
+    <dimen name="title5">10sp</dimen>
 
     <!-- Content -->
-    <dimen name="content">20dp</dimen>
+    <dimen name="content1">20sp</dimen>
+    <dimen name="content2">15sp</dimen>
+    <dimen name="content3">10sp</dimen>
 
     <!-- Padding/Margin -->
-    <dimen name="margin_big">20dp</dimen>
+    <dimen name="space_big">20dp</dimen>
+    <dimen name="space_medium">15dp</dimen>
+    <dimen name="space_small">10dp</dimen>
 
 </resources>
