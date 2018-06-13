@@ -50,7 +50,7 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
 
         mContext = this;
 
-        //handle deep linking
+
         Uri data = getIntent().getData();
         Set<String> parameterNames;
 
@@ -58,7 +58,6 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
             parameterNames = data.getQueryParameterNames();
         else
             parameterNames = new HashSet<>();
-
 
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_list);
@@ -89,7 +88,7 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!mQuestionListActivityViewModel.getLoading().getValue() && (mQuestionListActivityViewModel.getmQuestions().getValue() == null))
+        if(!mQuestionListActivityViewModel.getLoading().getValue() && (mQuestionListActivityViewModel.getQuestions().getValue() == null))
             mQuestionListActivityViewModel.loadQuestions();
     }
 
@@ -101,15 +100,15 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
 
 
         //Observe the questions data changes
-        mQuestionListActivityViewModel.getmQuestions().observe(this, (@Nullable List<Question> questions) -> {
+        mQuestionListActivityViewModel.getQuestions().observe(this, (@Nullable List<Question> questions) -> {
             if(questions != null) {
-                // perform animation
-                LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(mContext, R.anim.layout_slide_from_right);
-                questionsRecyclerView.setLayoutAnimation(animationController);
-                questionsRecyclerView.scheduleLayoutAnimation();
-
                 mQuestionListAdapter.setQuestions(questions);
             }
+        });
+
+        //Observe searching mode
+        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> {
+            mQuestionListAdapter.resetAdapter();
         });
 
         questionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

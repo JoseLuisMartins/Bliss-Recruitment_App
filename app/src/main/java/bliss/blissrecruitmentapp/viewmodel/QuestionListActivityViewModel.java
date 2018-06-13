@@ -118,7 +118,7 @@ public class QuestionListActivityViewModel extends ViewModel{
         this.loadQuestions();
     }
 
-    public MutableLiveData<List<Question>> getmQuestions() {
+    public MutableLiveData<List<Question>> getQuestions() {
         return mQuestions;
     }
 
