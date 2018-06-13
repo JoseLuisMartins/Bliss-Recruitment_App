@@ -3,8 +3,13 @@ package bliss.blissrecruitmentapp.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.AnimRes;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+
+import bliss.blissrecruitmentapp.R;
 
 public class Utils {
     public static String API_BASE_URL = "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com";
@@ -35,6 +40,14 @@ public class Utils {
         InputMethodManager imm =  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if(imm !=null)
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void runViewAnimation(Context context, View view, @AnimRes int animationId) {
+        Animation animation = AnimationUtils.loadAnimation(context, animationId);
+        animation.reset();
+
+        view.clearAnimation();
+        view.startAnimation(animation);
     }
 
 }

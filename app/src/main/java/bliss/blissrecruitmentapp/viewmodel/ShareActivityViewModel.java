@@ -31,6 +31,12 @@ public class ShareActivityViewModel extends ViewModel{
 
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
+
     public void shareContent(String email) {
         mLoading.setValue(true);
 
@@ -58,9 +64,4 @@ public class ShareActivityViewModel extends ViewModel{
         return mLoading;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
-    }
 }

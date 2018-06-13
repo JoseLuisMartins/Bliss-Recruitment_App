@@ -74,6 +74,11 @@ public class QuestionListActivityViewModel extends ViewModel{
         this.mLoading.setValue(false);
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
 
     public boolean checkHasMore(){
         return  (mQuestions.getValue().size() % this.mLimit != 10);
@@ -134,9 +139,4 @@ public class QuestionListActivityViewModel extends ViewModel{
         return String.format("%s?%s=%s", Utils.APP_BASE_LINK, Utils.APP_FILTER_PARAM, mSearchFilter);
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
-    }
 }

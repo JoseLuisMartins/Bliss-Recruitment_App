@@ -26,7 +26,7 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
 
 
     // question request observer
-    private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
+    private final SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
         @Override
         public void onSubscribe(Disposable d) {
             mCompositeDisposable.add(d);
@@ -54,6 +54,12 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
         this.mQuestion = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
         this.mUpdatedSuccessfully = new MutableLiveData<>();
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 
 
@@ -102,9 +108,4 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
         return String.format("%s?%s=%d", Utils.APP_BASE_LINK, Utils.APP_QUESTION_PARAM, this.mQuestionId);
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
-    }
 }

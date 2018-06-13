@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import javax.inject.Inject;

@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -19,6 +17,7 @@ import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.di.qualifiers.QuestionId;
+import bliss.blissrecruitmentapp.utils.Utils;
 import bliss.blissrecruitmentapp.view.adapter.QuestionChoicesAdapter;
 import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
 import dagger.Lazy;
@@ -91,18 +90,9 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.runStartAnimation();
+        Utils.runViewAnimation(mContext, mBinding.getRoot(),R.anim.item_animation_slide_from_bottom);
         mQuestionDetailsActivityViewModel.loadQuestion();
     }
-
-    private void runStartAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.item_animation_slide_from_bottom);
-        animation.reset();
-
-        mBinding.viewQuestionDetailsCard.clearAnimation();
-        mBinding.viewQuestionDetailsCard.startAnimation(animation);
-    }
-
 
     public void submitAnswer(View v) {
         this.mQuestionDetailsActivityViewModel.submitQuestion(questionChoicesAdapter.getLastSelectedPosition());

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import bliss.blissrecruitmentapp.di.qualifiers.ApplicationContext;
+import bliss.blissrecruitmentapp.di.qualifiers.ActivityContext;
 import bliss.blissrecruitmentapp.view.ui.NoConnectivityActivity;
 import okhttp3.Interceptor;
 import okhttp3.Response;
@@ -18,7 +18,7 @@ public class NetworkConnectionChecker implements Interceptor {
     private Context mContext;
 
     @Inject
-    public NetworkConnectionChecker(@ApplicationContext Context mContext) {
+    public NetworkConnectionChecker(@ActivityContext Context mContext) {
         this.mContext = mContext;
     }
 

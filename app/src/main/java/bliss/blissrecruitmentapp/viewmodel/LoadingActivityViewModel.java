@@ -28,7 +28,12 @@ public class LoadingActivityViewModel extends ViewModel{
         this.checkHealth();
     }
 
-
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
+    
     public MutableLiveData<Boolean> getmIsServiceAvailable() {
         return mIsServiceAvailable;
     }
@@ -51,12 +56,6 @@ public class LoadingActivityViewModel extends ViewModel{
                     mLoading.setValue(false);
                 }));
 
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
     }
 
     public MutableLiveData<Boolean> getLoading() {
