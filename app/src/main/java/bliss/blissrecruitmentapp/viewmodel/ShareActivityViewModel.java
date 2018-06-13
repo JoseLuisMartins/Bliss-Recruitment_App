@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ShareActivityViewModel extends ViewModel{
     private final ShareRepository mShareRepository;
     private final String mUrl;
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Boolean> mSuccessResponse;
     private final MutableLiveData<Boolean> mLoading;
 

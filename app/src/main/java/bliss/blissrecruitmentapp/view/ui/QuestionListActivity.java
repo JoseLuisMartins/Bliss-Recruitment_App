@@ -86,8 +86,12 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!mQuestionListActivityViewModel.getLoading().getValue() && mQuestionListActivityViewModel.getQuestions().getValue() == null)
+
+        Boolean loading = mQuestionListActivityViewModel.getLoading().getValue();
+
+        if(loading != null && !loading && mQuestionListActivityViewModel.getQuestions().getValue() == null) {
             mQuestionListActivityViewModel.loadQuestions();
+        }
     }
 
     @Override
@@ -114,9 +118,7 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         });
 
         //Observe searching mode
-        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> {
-            mQuestionListAdapter.resetAdapter();
-        });
+        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> mQuestionListAdapter.resetAdapter());
 
         questionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

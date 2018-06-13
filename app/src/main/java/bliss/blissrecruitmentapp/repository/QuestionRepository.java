@@ -12,7 +12,7 @@ import io.reactivex.Single;
 
 @Singleton
 public class QuestionRepository {
-    private QuestionClient mQuestionClient;
+    private final QuestionClient mQuestionClient;
 
     @Inject
     public QuestionRepository(QuestionClient questionClient) {

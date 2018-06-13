@@ -2,6 +2,7 @@ package bliss.blissrecruitmentapp.data.api.interceptors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class NetworkConnectionChecker implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         if (isConnected(mContext)) {
             return chain.proceed(chain.request());
         } else {

@@ -10,7 +10,7 @@ import retrofit2.Response;
 
 @Singleton
 public class HealthRepository {
-    private HealthClient mHealthClient;
+    private final HealthClient mHealthClient;
 
     @Inject
     public HealthRepository(HealthClient healthClient) {

@@ -17,9 +17,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class QuestionDetailsActivityViewModel extends ViewModel{
-    private QuestionRepository mQuestionRepository;
+    private final QuestionRepository mQuestionRepository;
     private final int mQuestionId;
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Question> mQuestion;
     private final MutableLiveData<Boolean> mLoading;
     private final MutableLiveData<Boolean> mUpdatedSuccessfully;

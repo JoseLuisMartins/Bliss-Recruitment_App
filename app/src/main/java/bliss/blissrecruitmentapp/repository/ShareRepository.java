@@ -8,7 +8,7 @@ import io.reactivex.Completable;
 
 @Singleton
 public class ShareRepository {
-    private ShareClient mShareClient;
+    private final ShareClient mShareClient;
 
     @Inject
     public ShareRepository(ShareClient shareClient) {

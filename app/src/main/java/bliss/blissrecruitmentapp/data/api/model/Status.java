@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Status {
     @SerializedName("status")
-    private String mStatus;
+    private final String mStatus;
 
 
 
@@ -13,7 +13,7 @@ public class Status {
     }
 
 
-    public String getmStatus(){
+    public String getStatus(){
         return mStatus;
     }
 

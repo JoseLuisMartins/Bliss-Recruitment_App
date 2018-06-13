@@ -39,7 +39,7 @@ public class LoadingActivity extends DaggerAppCompatActivity{
         binding.setLoadingViewModel(mLoadingViewModel);
 
         final Observer<Boolean> successObserver = (@Nullable Boolean success) -> {
-                if(success){
+                if(success != null && success){
                    Intent intent = new Intent(mContext, QuestionListActivity.class);
                    startActivity(intent);
                    finish();

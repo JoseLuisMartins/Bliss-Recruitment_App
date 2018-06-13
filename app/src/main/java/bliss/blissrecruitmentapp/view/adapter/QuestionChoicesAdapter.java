@@ -47,7 +47,7 @@ public class QuestionChoicesAdapter extends RecyclerView.Adapter<QuestionChoices
 
     public class QuestionChoiceItemHolder extends RecyclerView.ViewHolder {
 
-        public ItemForQuestionDetailsBinding binding;
+        public final ItemForQuestionDetailsBinding binding;
 
         QuestionChoiceItemHolder(ItemForQuestionDetailsBinding binding) {
             super(binding.getRoot());

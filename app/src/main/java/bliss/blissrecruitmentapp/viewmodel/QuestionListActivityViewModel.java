@@ -19,8 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class QuestionListActivityViewModel extends ViewModel{
 
-    private QuestionRepository mQuestionRepository;
-    private CompositeDisposable mCompositeDisposable;
+    private final QuestionRepository mQuestionRepository;
+    private final CompositeDisposable mCompositeDisposable;
 
     private final MutableLiveData<List<Question>> mQuestions;
     private final MutableLiveData<Boolean> mLoading;
@@ -31,7 +31,7 @@ public class QuestionListActivityViewModel extends ViewModel{
 
 
     // question request observer
-    private SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
+    private final SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
         @Override
         public void onSubscribe(Disposable d) {
             mCompositeDisposable.add(d);
@@ -81,7 +81,10 @@ public class QuestionListActivityViewModel extends ViewModel{
     }
 
     public boolean checkHasMore(){
-        return  (mQuestions.getValue().size() % this.mLimit != 10);
+        if(mQuestions.getValue() != null)
+            return (mQuestions.getValue().size() % this.mLimit != 10);
+        else
+            return true;
     }
 
 
