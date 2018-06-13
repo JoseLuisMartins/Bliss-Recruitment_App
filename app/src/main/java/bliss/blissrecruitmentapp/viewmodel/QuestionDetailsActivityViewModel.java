@@ -12,12 +12,14 @@ import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import bliss.blissrecruitmentapp.utils.Utils;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class QuestionDetailsActivityViewModel extends ViewModel{
     private QuestionRepository mQuestionRepository;
     private final int mQuestionId;
+    private CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Question> mQuestion;
     private final MutableLiveData<Boolean> mLoading;
     private final MutableLiveData<Boolean> mUpdatedSuccessfully;
@@ -27,6 +29,7 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
     private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
         @Override
         public void onSubscribe(Disposable d) {
+            mCompositeDisposable.add(d);
         }
 
         @Override
@@ -43,10 +46,11 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
     };
 
     @Inject
-    public QuestionDetailsActivityViewModel(QuestionRepository questionRepository, @QuestionId int questionId) {
-        this.mQuestionId = questionId;
-
+    public QuestionDetailsActivityViewModel(QuestionRepository questionRepository, @QuestionId int questionId, CompositeDisposable compositeDisposable) {
         this.mQuestionRepository = questionRepository;
+        this.mQuestionId = questionId;
+        this.mCompositeDisposable = compositeDisposable;
+
         this.mQuestion = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
         this.mUpdatedSuccessfully = new MutableLiveData<>();
@@ -75,7 +79,7 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
         c.setVotes(c.getVotes() + 1);
 
         mLoading.setValue(true);
-        Disposable disposable = mQuestionRepository.updateQuestion(mQuestion.getValue())
+        mCompositeDisposable.add(mQuestionRepository.updateQuestion(mQuestion.getValue())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
@@ -86,7 +90,7 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
                 }, throwable -> {
                     mLoading.setValue(false);
                     mUpdatedSuccessfully.setValue(false);
-                });
+                }));
     }
 
     public MutableLiveData<Boolean> getUpdatedSuccessfully() {
@@ -96,5 +100,11 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
 
     public String getAppLink(){
         return String.format("%s?%s=%d", Utils.APP_BASE_LINK, Utils.APP_QUESTION_PARAM, this.mQuestionId);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 }

@@ -15,6 +15,7 @@ import bliss.blissrecruitmentapp.viewmodel.factories.GenericViewModelFactory;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Retrofit;
 
 @Module
@@ -26,6 +27,11 @@ public abstract class ApplicationModule {
 
     @Binds
     public abstract ViewModelProvider.Factory bindViewModelFactory(GenericViewModelFactory genericViewModelFactory);
+
+    @Provides
+    public static CompositeDisposable provideCompositeDisposable() {
+        return new CompositeDisposable();
+    }
 
     @Provides
     @Singleton

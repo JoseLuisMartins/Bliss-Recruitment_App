@@ -13,12 +13,14 @@ import bliss.blissrecruitmentapp.repository.QuestionRepository;
 import bliss.blissrecruitmentapp.utils.Utils;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class QuestionListActivityViewModel extends ViewModel{
 
     private QuestionRepository mQuestionRepository;
+    private CompositeDisposable mCompositeDisposable;
 
     private final MutableLiveData<List<Question>> mQuestions;
     private final MutableLiveData<Boolean> mLoading;
@@ -32,6 +34,7 @@ public class QuestionListActivityViewModel extends ViewModel{
     private SingleObserver<List<Question>> mQuestionsRequestObserver = new SingleObserver<List<Question>>() {
         @Override
         public void onSubscribe(Disposable d) {
+            mCompositeDisposable.add(d);
         }
 
         @Override
@@ -56,8 +59,10 @@ public class QuestionListActivityViewModel extends ViewModel{
     };
 
     @Inject
-    public QuestionListActivityViewModel(QuestionRepository questionRepository) {
+    public QuestionListActivityViewModel(QuestionRepository questionRepository, CompositeDisposable compositeDisposable) {
         this.mQuestionRepository = questionRepository;
+        this.mCompositeDisposable = compositeDisposable;
+
         this.mQuestions = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
         this.mSearching = new MutableLiveData<>();
@@ -67,7 +72,6 @@ public class QuestionListActivityViewModel extends ViewModel{
 
         this.mSearching.setValue(false);
         this.mLoading.setValue(false);
-
     }
 
 
@@ -79,7 +83,8 @@ public class QuestionListActivityViewModel extends ViewModel{
     public void loadQuestions(){
         mLoading.setValue(true);
 
-        if(mSearching.getValue())
+
+        if(mSearching.getValue() != null && mSearching.getValue())
             mQuestionRepository.getQuestions(mLimit, mOffset, mSearchFilter)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -127,5 +132,11 @@ public class QuestionListActivityViewModel extends ViewModel{
 
     public String getAppLink(){
         return String.format("%s?%s=%s", Utils.APP_BASE_LINK, Utils.APP_FILTER_PARAM, mSearchFilter);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 }

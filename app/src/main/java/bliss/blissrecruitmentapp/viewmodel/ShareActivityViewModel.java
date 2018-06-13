@@ -8,20 +8,24 @@ import javax.inject.Inject;
 import bliss.blissrecruitmentapp.di.qualifiers.ShareUrl;
 import bliss.blissrecruitmentapp.repository.ShareRepository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 
 public class ShareActivityViewModel extends ViewModel{
     private final ShareRepository mShareRepository;
+    private final String mUrl;
+    private CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Boolean> mSuccessResponse;
     private final MutableLiveData<Boolean> mLoading;
-    private final String mUrl;
+
 
     @Inject
-    public ShareActivityViewModel(ShareRepository shareRepository, @ShareUrl String url) {
+    public ShareActivityViewModel(ShareRepository shareRepository, @ShareUrl String url, CompositeDisposable compositeDisposable) {
         this.mShareRepository = shareRepository;
         this.mUrl = url;
+        this.mCompositeDisposable = compositeDisposable;
+
         this.mSuccessResponse = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
 
@@ -30,7 +34,7 @@ public class ShareActivityViewModel extends ViewModel{
     public void shareContent(String email) {
         mLoading.setValue(true);
 
-        Disposable disposable = mShareRepository.shareApp(email, this.mUrl)
+        mCompositeDisposable.add(mShareRepository.shareApp(email, this.mUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
@@ -39,7 +43,7 @@ public class ShareActivityViewModel extends ViewModel{
                 }, throwable -> {
                     mLoading.setValue(false);
                     this.mSuccessResponse.setValue(false);
-                });
+                }));
     }
 
     public MutableLiveData<Boolean> getSuccessResponse() {
@@ -54,4 +58,9 @@ public class ShareActivityViewModel extends ViewModel{
         return mLoading;
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
 }
