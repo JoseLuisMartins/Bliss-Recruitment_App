@@ -2,23 +2,26 @@ package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
 
-import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.model.Choice;
-import bliss.blissrecruitmentapp.model.Question;
+import javax.inject.Inject;
+
+import bliss.blissrecruitmentapp.di.qualifiers.QuestionId;
+import bliss.blissrecruitmentapp.data.api.model.Choice;
+import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.repository.QuestionRepository;
+import bliss.blissrecruitmentapp.utils.Utils;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class QuestionDetailsActivityViewModel extends ViewModel{
     private QuestionRepository mQuestionRepository;
     private final int mQuestionId;
-    private final ObservableField<Question> mQuestion;
-    private final ObservableField<Boolean> mLoading;
-    private final MutableLiveData<Boolean> mQuestionLoaded;
+    private CompositeDisposable mCompositeDisposable;
+    private final MutableLiveData<Question> mQuestion;
+    private final MutableLiveData<Boolean> mLoading;
     private final MutableLiveData<Boolean> mUpdatedSuccessfully;
 
 
@@ -26,37 +29,36 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
     private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
         @Override
         public void onSubscribe(Disposable d) {
+            mCompositeDisposable.add(d);
         }
 
         @Override
         public void onSuccess(Question question) {
-            //Notify activity about new incoming question data
-            mQuestion.set(question);
-            mQuestionLoaded.setValue(true);
-            mLoading.set(false);
+            mQuestion.setValue(question);
+            mLoading.setValue(false);
         }
 
         @Override
         public void onError(Throwable e) {
-            mQuestionLoaded.setValue(false);
-            mLoading.set(false);
+            mLoading.setValue(false);
         }
 
     };
 
-    public QuestionDetailsActivityViewModel(int questionId) {
+    @Inject
+    public QuestionDetailsActivityViewModel(QuestionRepository questionRepository, @QuestionId int questionId, CompositeDisposable compositeDisposable) {
+        this.mQuestionRepository = questionRepository;
         this.mQuestionId = questionId;
+        this.mCompositeDisposable = compositeDisposable;
 
-        this.mQuestionRepository = new QuestionRepository();
-        this.mQuestion = new ObservableField<>();
-        this.mLoading = new ObservableField<>();
-        this.mQuestionLoaded = new MutableLiveData<>();
+        this.mQuestion = new MutableLiveData<>();
+        this.mLoading = new MutableLiveData<>();
         this.mUpdatedSuccessfully = new MutableLiveData<>();
     }
 
 
     public void loadQuestion(){
-        mLoading.set(true);
+        mLoading.setValue(true);
 
         mQuestionRepository.getQuestion(mQuestionId)
                 .subscribeOn(Schedulers.io())
@@ -64,42 +66,45 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
                 .subscribe(mQuestionRequestObserver);
     }
 
-    public ObservableField<Boolean> getLoading() {
+    public MutableLiveData<Boolean> getLoading() {
         return mLoading;
     }
 
-    public ObservableField<Question> getQuestion() {
+    public MutableLiveData<Question> getQuestion() {
         return mQuestion;
     }
 
     public void submitQuestion(int selectedChoice){
-        //update question
-        Choice c = mQuestion.get().getChoices().get(selectedChoice);
+        Choice c = mQuestion.getValue().getChoices().get(selectedChoice);
         c.setVotes(c.getVotes() + 1);
 
-        //make request
-        mLoading.set(true);
-        Disposable disposable = mQuestionRepository.updateQuestion(mQuestion.get())
+        mLoading.setValue(true);
+        mCompositeDisposable.add(mQuestionRepository.updateQuestion(mQuestion.getValue())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    mLoading.set(false);
+                    mLoading.setValue(false);
                     mUpdatedSuccessfully.setValue(true);
+                    // Update the UI
+                    mQuestion.setValue(mQuestion.getValue());
                 }, throwable -> {
-                    mLoading.set(false);
+                    mLoading.setValue(false);
                     mUpdatedSuccessfully.setValue(false);
-                });
+                }));
     }
 
     public MutableLiveData<Boolean> getUpdatedSuccessfully() {
         return mUpdatedSuccessfully;
     }
 
-    public MutableLiveData<Boolean> getmQuestionLoaded() {
-        return mQuestionLoaded;
-    }
 
     public String getAppLink(){
         return String.format("%s?%s=%d", Utils.APP_BASE_LINK, Utils.APP_QUESTION_PARAM, this.mQuestionId);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 }

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".BlissRecruitmentApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,14 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".view.LoadingActivity">
+            android:name=".view.ui.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.QuestionListActivity">
+        <activity android:name=".view.ui.QuestionListActivity">
 
             <!-- handle deep linking -->
             <intent-filter>
@@ -35,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.QuestionDetailsActivity"
+            android:name=".view.ui.QuestionDetailsActivity"
             android:label="@string/title_activity_question_details">
         </activity>
-        <activity android:name=".view.ShareActivity"/>
-        <activity android:name=".view.NoConnectivityActivity"/>
+        <activity android:name=".view.ui.ShareActivity"/>
+        <activity android:name=".view.ui.NoConnectivityActivity"/>
     </application>
 
 </manifest>

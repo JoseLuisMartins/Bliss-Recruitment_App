@@ -23,14 +23,18 @@ public class Utils {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        if(cm == null)
+            return false;
+
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
     }
 
-    public static void hideFocusKeyboard(Context c,View v){
-        InputMethodManager imm =  (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    public static void hideFocusKeyboard(Context context,View view){
+        InputMethodManager imm =  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm !=null)
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

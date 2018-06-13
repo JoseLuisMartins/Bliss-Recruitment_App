@@ -21,6 +21,7 @@
     <string name="error_question_details_activity_no_question">An error occurred loading the desired question</string>
     <string name="lbl_question_details_activity_img_description">Question image</string>
     <string name="lbl_question_details_activity_send_img_description"> Image for submitting question</string>
+    <string name="lbl_question_details_activity_votes">Votes</string>
 
     <!-- share -->
     <string name="lbl_share_activity_sharing">Sharing</string>

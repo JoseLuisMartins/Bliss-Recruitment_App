@@ -2,7 +2,7 @@
 <layout>
     <data>
         <import type="android.view.View" />
-        <import type="bliss.blissrecruitmentapp.model.Question" />
+        <import type="bliss.blissrecruitmentapp.data.api.model.Question" />
         <variable name="questionDetailsActivityViewModel" type="bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel"/>
     </data>
 
@@ -45,7 +45,7 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".view.QuestionDetailsActivity">
+                tools:context=".view.ui.QuestionDetailsActivity">
 
 
                 <ImageView
@@ -89,35 +89,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_date_TextView" />
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/activity_question_details_question_RecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_text_TextView">
-
-                    <RadioGroup
-                        android:id="@+id/activity_question_details_RadioGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_text_TextView"
-                        app:layout_constraintVertical_bias="0.2">
-
-                    </RadioGroup>
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/activity_question_details_question_text_TextView" />
 
 
                 <ImageButton

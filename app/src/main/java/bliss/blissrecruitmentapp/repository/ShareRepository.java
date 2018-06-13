@@ -1,17 +1,21 @@
 package bliss.blissrecruitmentapp.repository;
 
-import bliss.blissrecruitmentapp.network.RetrofitInstance;
-import bliss.blissrecruitmentapp.network.api.ShareClient;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import bliss.blissrecruitmentapp.data.api.endpoints.ShareClient;
 import io.reactivex.Completable;
 
+@Singleton
 public class ShareRepository {
     private ShareClient mShareClient;
 
-    public ShareRepository() {
-        this.mShareClient = RetrofitInstance.getRetrofitInstance().create(ShareClient.class);
+    @Inject
+    public ShareRepository(ShareClient shareClient) {
+        this.mShareClient = shareClient;
     }
 
-    // Update question
+
     public Completable shareApp(String email, String url){
         return mShareClient.share(email, url);
     }
