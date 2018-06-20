@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.adapter;
+package bliss.blissrecruitmentapp.view.QuestionDetails;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;

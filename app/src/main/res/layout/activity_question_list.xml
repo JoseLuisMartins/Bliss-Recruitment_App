@@ -5,7 +5,7 @@
 
         <variable
             name="questionListActivityViewModel"
-            type="bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel" />
+            type="bliss.blissrecruitmentapp.view.QuestionList.QuestionListActivityViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

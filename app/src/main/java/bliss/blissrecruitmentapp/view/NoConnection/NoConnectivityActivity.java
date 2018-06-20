@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.ui;
+package bliss.blissrecruitmentapp.view.NoConnection;
 
 
 import android.content.Context;

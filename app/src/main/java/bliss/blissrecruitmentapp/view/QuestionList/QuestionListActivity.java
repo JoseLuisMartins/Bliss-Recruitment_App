@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.ui;
+package bliss.blissrecruitmentapp.view.QuestionList;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -23,8 +23,8 @@ import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionListBinding;
 import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.view.adapter.QuestionListAdapter;
-import bliss.blissrecruitmentapp.viewmodel.QuestionListActivityViewModel;
+import bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivity;
+import bliss.blissrecruitmentapp.view.Share.ShareActivity;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
@@ -118,7 +118,7 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         });
 
         //Observe searching mode
-        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> mQuestionListAdapter.resetAdapter());
+        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean isSearchMode) -> mQuestionListAdapter.resetAdapter());
 
         questionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

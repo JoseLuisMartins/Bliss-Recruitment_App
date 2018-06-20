@@ -10,8 +10,7 @@ import bliss.blissrecruitmentapp.di.qualifiers.ApplicationContext;
 import bliss.blissrecruitmentapp.data.api.endpoints.HealthClient;
 import bliss.blissrecruitmentapp.data.api.endpoints.QuestionClient;
 import bliss.blissrecruitmentapp.data.api.endpoints.ShareClient;
-import bliss.blissrecruitmentapp.data.api.interceptors.NetworkConnectionChecker;
-import bliss.blissrecruitmentapp.viewmodel.factories.GenericViewModelFactory;
+import bliss.blissrecruitmentapp.viewmodel.GenericViewModelFactory;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -50,12 +49,5 @@ public abstract class ApplicationModule {
     public static ShareClient provideShareClient(Retrofit retrofit) {
         return retrofit.create(ShareClient.class);
     }
-
-    @Provides
-    @Singleton
-    public static NetworkConnectionChecker provideNetworkConnectionChecker(@ApplicationContext Context context) {
-        return new NetworkConnectionChecker(context);
-    }
-
 
 }

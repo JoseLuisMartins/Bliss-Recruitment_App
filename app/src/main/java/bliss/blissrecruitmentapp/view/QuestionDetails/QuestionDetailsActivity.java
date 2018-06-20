@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.ui;
+package bliss.blissrecruitmentapp.view.QuestionDetails;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -18,8 +18,7 @@ import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ActivityQuestionDetailsBinding;
 import bliss.blissrecruitmentapp.di.qualifiers.QuestionId;
 import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.view.adapter.QuestionChoicesAdapter;
-import bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel;
+import bliss.blissrecruitmentapp.view.Share.ShareActivity;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 

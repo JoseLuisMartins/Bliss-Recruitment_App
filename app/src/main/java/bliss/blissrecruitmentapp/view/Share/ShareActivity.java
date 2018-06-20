@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.ui;
+package bliss.blissrecruitmentapp.view.Share;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,7 +17,6 @@ import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityShareBinding;
 import bliss.blissrecruitmentapp.di.qualifiers.ShareUrl;
 import bliss.blissrecruitmentapp.utils.Utils;
-import bliss.blissrecruitmentapp.viewmodel.ShareActivityViewModel;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 

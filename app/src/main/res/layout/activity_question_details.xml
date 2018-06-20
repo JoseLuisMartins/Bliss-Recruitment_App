@@ -3,7 +3,7 @@
     <data>
         <import type="android.view.View" />
         <import type="bliss.blissrecruitmentapp.data.api.model.Question" />
-        <variable name="questionDetailsActivityViewModel" type="bliss.blissrecruitmentapp.viewmodel.QuestionDetailsActivityViewModel"/>
+        <variable name="questionDetailsActivityViewModel" type="bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivityViewModel"/>
     </data>
 
 
@@ -45,7 +45,7 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".view.ui.QuestionDetailsActivity">
+                tools:context=".view.QuestionDetails.QuestionDetailsActivity">
 
 
                 <ImageView

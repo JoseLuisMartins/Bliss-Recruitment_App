@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.viewmodel;
+package bliss.blissrecruitmentapp.view.QuestionList;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -41,12 +41,13 @@ public class QuestionListActivityViewModel extends ViewModel{
         public void onSuccess(List<Question> questions) {
             //Notify activity about new incoming question data
             List<Question> questionsTmp = mQuestions.getValue();
+
             if(questionsTmp != null) {
                 mQuestions.getValue().addAll(questions);
                 mQuestions.setValue(mQuestions.getValue());
-            } else
+            } else {
                 mQuestions.setValue(questions);
-
+            }
 
             mLoading.setValue(false);
         }

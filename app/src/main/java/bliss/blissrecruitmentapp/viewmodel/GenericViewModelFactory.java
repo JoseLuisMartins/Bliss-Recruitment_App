@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.viewmodel.factories;
+package bliss.blissrecruitmentapp.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

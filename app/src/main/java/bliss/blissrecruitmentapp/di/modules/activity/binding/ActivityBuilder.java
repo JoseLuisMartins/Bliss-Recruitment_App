@@ -4,11 +4,11 @@ import bliss.blissrecruitmentapp.di.modules.activity.LoadingActivityModule;
 import bliss.blissrecruitmentapp.di.modules.activity.QuestionDetailsActivityModule;
 import bliss.blissrecruitmentapp.di.modules.activity.QuestionListActivityModule;
 import bliss.blissrecruitmentapp.di.modules.activity.ShareActivityModule;
-import bliss.blissrecruitmentapp.view.ui.LoadingActivity;
-import bliss.blissrecruitmentapp.view.ui.NoConnectivityActivity;
-import bliss.blissrecruitmentapp.view.ui.QuestionDetailsActivity;
-import bliss.blissrecruitmentapp.view.ui.QuestionListActivity;
-import bliss.blissrecruitmentapp.view.ui.ShareActivity;
+import bliss.blissrecruitmentapp.view.HealthCheck.LoadingActivity;
+import bliss.blissrecruitmentapp.view.NoConnection.NoConnectivityActivity;
+import bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivity;
+import bliss.blissrecruitmentapp.view.QuestionList.QuestionListActivity;
+import bliss.blissrecruitmentapp.view.Share.ShareActivity;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

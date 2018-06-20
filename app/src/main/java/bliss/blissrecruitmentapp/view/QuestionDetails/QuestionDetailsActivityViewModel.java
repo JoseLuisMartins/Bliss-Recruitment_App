@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.viewmodel;
+package bliss.blissrecruitmentapp.view.QuestionDetails;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

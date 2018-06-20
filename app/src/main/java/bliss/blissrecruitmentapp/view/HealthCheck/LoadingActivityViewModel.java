@@ -1,7 +1,8 @@
-package bliss.blissrecruitmentapp.viewmodel;
+package bliss.blissrecruitmentapp.view.HealthCheck;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+
 
 import javax.inject.Inject;
 
@@ -47,11 +48,12 @@ public class LoadingActivityViewModel extends ViewModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {
                     if(data.code() == 200) {
-                        //go to Questions List Screen
+                        // Go to Questions List Screen
                         mIsServiceAvailable.setValue(true);
                     }else{
                         mLoading.setValue(false);
                     }
+
                 }, throwable -> mLoading.setValue(false)));
 
     }

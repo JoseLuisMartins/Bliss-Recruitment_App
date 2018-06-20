@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.adapter;
+package bliss.blissrecruitmentapp.view.QuestionList;
 
 
 import android.content.Context;
@@ -17,7 +17,7 @@ import java.util.List;
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
-import bliss.blissrecruitmentapp.view.ui.QuestionDetailsActivity;
+import bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivity;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
     private List<Question> mQuestions;
@@ -74,7 +74,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         super.onViewDetachedFromWindow(holder);
         holder.binding.getRoot().clearAnimation();
     }
-
 
 
     public void animateItem(View viewToAnimate, int position){

@@ -2,7 +2,7 @@
 <layout>
     <data>
         <import type="android.view.View" />
-        <variable name="loadingViewModel" type="bliss.blissrecruitmentapp.viewmodel.LoadingActivityViewModel"/>
+        <variable name="loadingViewModel" type="bliss.blissrecruitmentapp.view.HealthCheck.LoadingActivityViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

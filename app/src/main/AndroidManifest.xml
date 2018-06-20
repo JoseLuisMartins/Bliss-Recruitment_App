@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".view.ui.LoadingActivity">
+            android:name=".view.HealthCheck.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ui.QuestionListActivity">
+        <activity android:name=".view.QuestionList.QuestionListActivity">
 
             <!-- handle deep linking -->
             <intent-filter>
@@ -35,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ui.QuestionDetailsActivity"
+            android:name=".view.QuestionDetails.QuestionDetailsActivity"
             android:label="@string/title_activity_question_details">
         </activity>
-        <activity android:name=".view.ui.ShareActivity"/>
-        <activity android:name=".view.ui.NoConnectivityActivity"/>
+        <activity android:name=".view.Share.ShareActivity"/>
+        <activity android:name=".view.NoConnection.NoConnectivityActivity"/>
     </application>
 
 </manifest>

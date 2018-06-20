@@ -1,11 +1,13 @@
 package bliss.blissrecruitmentapp.di.modules;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;
 
+import bliss.blissrecruitmentapp.di.qualifiers.ApplicationContext;
 import bliss.blissrecruitmentapp.di.qualifiers.BaseApiUrl;
 import bliss.blissrecruitmentapp.data.api.interceptors.NetworkConnectionChecker;
 import bliss.blissrecruitmentapp.utils.Utils;
@@ -25,12 +27,24 @@ public class NetworkModule {
         return Utils.API_BASE_URL;
     }
 
+
     @Provides
     @Singleton
-    OkHttpClient providesOkHttpClient(NetworkConnectionChecker networkConnectionCheckerInterceptor) {
+    HttpLoggingInterceptor providesHttpLoggingInterceptor() {
+        return new HttpLoggingInterceptor();
+    }
+
+    @Provides
+    @Singleton
+    public static NetworkConnectionChecker provideNetworkConnectionChecker(@ApplicationContext Context context) {
+        return new NetworkConnectionChecker(context);
+    }
+
+    @Provides
+    @Singleton
+    OkHttpClient providesOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor, NetworkConnectionChecker networkConnectionCheckerInterceptor) {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
 
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         okHttpClientBuilder.addInterceptor(httpLoggingInterceptor);
         okHttpClientBuilder.addInterceptor(networkConnectionCheckerInterceptor);

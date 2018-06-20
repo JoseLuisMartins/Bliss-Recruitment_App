@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.di.qualifiers.ActivityContext;
-import bliss.blissrecruitmentapp.view.ui.NoConnectivityActivity;
+import bliss.blissrecruitmentapp.view.NoConnection.NoConnectivityActivity;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 

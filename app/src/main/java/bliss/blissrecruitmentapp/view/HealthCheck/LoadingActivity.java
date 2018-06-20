@@ -1,4 +1,4 @@
-package bliss.blissrecruitmentapp.view.ui;
+package bliss.blissrecruitmentapp.view.HealthCheck;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.databinding.ActivityLoadingBinding;
-import bliss.blissrecruitmentapp.viewmodel.LoadingActivityViewModel;
+import bliss.blissrecruitmentapp.view.QuestionList.QuestionListActivity;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class LoadingActivity extends DaggerAppCompatActivity{
