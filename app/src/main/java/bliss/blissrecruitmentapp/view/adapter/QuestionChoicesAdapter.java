@@ -22,15 +22,6 @@ public class QuestionChoicesAdapter extends RecyclerView.Adapter<QuestionChoices
         this.mChoices = choices;
     }
 
-    public void setChoices(List<Choice> choices) {
-        this.mChoices = choices;
-        notifyDataSetChanged();
-    }
-
-    public int getLastSelectedPosition() {
-        return mLastSelectedPosition;
-    }
-
     @NonNull
     @Override
     public QuestionChoicesAdapter.QuestionChoiceItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,7 +47,7 @@ public class QuestionChoicesAdapter extends RecyclerView.Adapter<QuestionChoices
 
     public class QuestionChoiceItemHolder extends RecyclerView.ViewHolder {
 
-        public ItemForQuestionDetailsBinding binding;
+        public final ItemForQuestionDetailsBinding binding;
 
         QuestionChoiceItemHolder(ItemForQuestionDetailsBinding binding) {
             super(binding.getRoot());
@@ -67,6 +58,15 @@ public class QuestionChoicesAdapter extends RecyclerView.Adapter<QuestionChoices
                 notifyDataSetChanged();
             });
         }
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.mChoices = choices;
+        notifyDataSetChanged();
+    }
+
+    public int getLastSelectedPosition() {
+        return mLastSelectedPosition;
     }
 
 }

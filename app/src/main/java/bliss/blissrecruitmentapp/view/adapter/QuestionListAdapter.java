@@ -88,7 +88,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
 
     public class QuestionListItemHolder extends RecyclerView.ViewHolder {
 
-        public ItemForQuestionListBinding binding;
+        public final ItemForQuestionListBinding binding;
 
         QuestionListItemHolder(ItemForQuestionListBinding binding) {
             super(binding.getRoot());

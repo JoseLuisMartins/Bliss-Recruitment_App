@@ -58,8 +58,14 @@ public class ShareActivity extends DaggerAppCompatActivity {
                 }
             }
         });
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.runViewAnimation(mContext, mBinding.getRoot(),R.anim.item_animation_slide_from_bottom);
+    }
+
 
     public boolean isEmailValid(String email) {
         return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
