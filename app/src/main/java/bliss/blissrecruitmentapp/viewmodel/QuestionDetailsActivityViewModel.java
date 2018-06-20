@@ -17,16 +17,16 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class QuestionDetailsActivityViewModel extends ViewModel{
-    private QuestionRepository mQuestionRepository;
+    private final QuestionRepository mQuestionRepository;
     private final int mQuestionId;
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Question> mQuestion;
     private final MutableLiveData<Boolean> mLoading;
     private final MutableLiveData<Boolean> mUpdatedSuccessfully;
 
 
     // question request observer
-    private SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
+    private final SingleObserver<Question> mQuestionRequestObserver = new SingleObserver<Question>() {
         @Override
         public void onSubscribe(Disposable d) {
             mCompositeDisposable.add(d);
@@ -54,6 +54,12 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
         this.mQuestion = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
         this.mUpdatedSuccessfully = new MutableLiveData<>();
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 
 
@@ -102,9 +108,4 @@ public class QuestionDetailsActivityViewModel extends ViewModel{
         return String.format("%s?%s=%d", Utils.APP_BASE_LINK, Utils.APP_QUESTION_PARAM, this.mQuestionId);
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
-    }
 }

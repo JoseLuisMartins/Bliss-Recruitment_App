@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ShareActivityViewModel extends ViewModel{
     private final ShareRepository mShareRepository;
     private final String mUrl;
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Boolean> mSuccessResponse;
     private final MutableLiveData<Boolean> mLoading;
 
@@ -29,6 +29,12 @@ public class ShareActivityViewModel extends ViewModel{
         this.mSuccessResponse = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
 
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
     }
 
     public void shareContent(String email) {
@@ -58,9 +64,4 @@ public class ShareActivityViewModel extends ViewModel{
         return mLoading;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
-    }
 }

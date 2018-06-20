@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -40,7 +39,7 @@ public class LoadingActivity extends DaggerAppCompatActivity{
         binding.setLoadingViewModel(mLoadingViewModel);
 
         final Observer<Boolean> successObserver = (@Nullable Boolean success) -> {
-                if(success){
+                if(success != null && success){
                    Intent intent = new Intent(mContext, QuestionListActivity.class);
                    startActivity(intent);
                    finish();

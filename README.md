@@ -7,14 +7,14 @@
 #### Method 1:
 
 * Import the project to Android Studio
-* Install all the asked dependecies
+* Install all the asked dependencies
 * Clean and Rebuild the project (to ensure that everything is ok)
 * Run the project on your device of choice
 
 
 #### Method 2:
 
-* Download and install the apk available on the following last release.
+* Download and install the apk available on the latest release.
 
 
 

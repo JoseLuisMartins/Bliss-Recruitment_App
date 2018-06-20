@@ -12,8 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import java.util.HashSet;
 import java.util.List;
@@ -88,10 +86,23 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!mQuestionListActivityViewModel.getLoading().getValue() && (mQuestionListActivityViewModel.getQuestions().getValue() == null))
+
+        Boolean loading = mQuestionListActivityViewModel.getLoading().getValue();
+
+        if(loading != null && !loading && mQuestionListActivityViewModel.getQuestions().getValue() == null) {
             mQuestionListActivityViewModel.loadQuestions();
+        }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
+    public void shareSearch(View v) {
+        Intent intent = new Intent(mContext, ShareActivity.class);
+        intent.putExtra(getString(R.string.share_url), mQuestionListActivityViewModel.getAppLink());
+        mContext.startActivity(intent);
+    }
 
     private void initQuestionList(){
         RecyclerView questionsRecyclerView = mBinding.viewActivityQuestionListRecycler;
@@ -107,9 +118,7 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         });
 
         //Observe searching mode
-        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> {
-            mQuestionListAdapter.resetAdapter();
-        });
+        mQuestionListActivityViewModel.getSearching().observe(this, (@Nullable Boolean searchMode) -> mQuestionListAdapter.resetAdapter());
 
         questionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -154,13 +163,5 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         });
     }
 
-    public void shareSearch(View v) {
-        Intent intent = new Intent(mContext, ShareActivity.class);
-        intent.putExtra(getString(R.string.share_url), mQuestionListActivityViewModel.getAppLink());
-        mContext.startActivity(intent);
-    }
 
-    @Override
-    public void onBackPressed() {
-    }
 }

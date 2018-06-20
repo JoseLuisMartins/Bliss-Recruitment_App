@@ -14,7 +14,7 @@ public class LoadingActivityViewModel extends ViewModel{
     private final HealthRepository mHealthRepository;
     private final MutableLiveData<Boolean> mIsServiceAvailable;
     private final MutableLiveData<Boolean> mLoading;
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
 
 
     @Inject
@@ -28,7 +28,12 @@ public class LoadingActivityViewModel extends ViewModel{
         this.checkHealth();
     }
 
-
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCompositeDisposable.dispose();
+    }
+    
     public MutableLiveData<Boolean> getmIsServiceAvailable() {
         return mIsServiceAvailable;
     }
@@ -47,16 +52,8 @@ public class LoadingActivityViewModel extends ViewModel{
                     }else{
                         mLoading.setValue(false);
                     }
-                }, throwable -> {
-                    mLoading.setValue(false);
-                }));
+                }, throwable -> mLoading.setValue(false)));
 
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.dispose();
     }
 
     public MutableLiveData<Boolean> getLoading() {
