@@ -9,60 +9,90 @@
     <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
         app:cardElevation="10dp"
         >
-        <LinearLayout
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/item_for_question_list_votes_lbl_TextView"
+            app:layout_constraintTop_toBottomOf="@+id/item_for_question_list_votes_lbl_TextView">
 
 
             <ImageView
+                android:id="@+id/item_for_question_list_ImageView"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:scaleType="centerCrop"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/lbl_item_for_question_list_thumbnail_description"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{question.thumb_url}"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_for_question_list_votes_lbl_TextView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:layout_conversion_absoluteHeight="100dp"
+                tools:layout_conversion_absoluteWidth="74dp" />
 
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/item_for_question_list_votes_lbl_TextView"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:layout_weight="10"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@{question.question}"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/item_for_question_details_votes_TextView"
+                app:layout_constraintEnd_toStartOf="@+id/view_item_for_question_details_button"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintStart_toEndOf="@+id/item_for_question_list_ImageView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="185dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@{question.question}" />
 
+            <TextView
+                android:id="@+id/item_for_question_details_votes_TextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:text="@{question.published_at.substring(0,10)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/view_item_for_question_details_button"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintStart_toEndOf="@+id/item_for_question_list_ImageView"
+                app:layout_constraintTop_toBottomOf="@+id/item_for_question_list_votes_lbl_TextView"
+                app:layout_constraintVertical_weight="1"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="185dp" />
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@{question.published_at.substring(0,10)}" />
-
-            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/view_item_for_question_details_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="@string/lbl_item_for_question_list_details_button_description"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="@color/color3"
-                app:srcCompat="@android:drawable/ic_menu_view" />
+                android:contentDescription="@string/lbl_item_for_question_list_details_button_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/item_for_question_list_votes_lbl_TextView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_view"
+                tools:layout_conversion_absoluteHeight="100dp"
+                tools:layout_conversion_absoluteWidth="51dp" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </layout>

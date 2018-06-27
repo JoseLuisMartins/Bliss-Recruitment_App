@@ -6,9 +6,10 @@
             type="bliss.blissrecruitmentapp.data.api.model.Choice" />
     </data>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -16,31 +17,50 @@
 
         <RadioButton
             android:id="@+id/view_item_for_question_details_RadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@{choice.choice}" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{choice.choice}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_for_question_list_votes_lbl_TextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="216dp" />
 
-        <LinearLayout
-            android:layout_weight="3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/lbl_question_details_activity_votes" />
+        <TextView
+            android:id="@+id/item_for_question_list_votes_lbl_TextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/lbl_question_details_activity_votes"
+            app:layout_constraintBottom_toTopOf="@+id/item_for_question_details_votes_TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@+id/view_item_for_question_details_RadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1"
+            tools:layout_conversion_absoluteHeight="25dp"
+            tools:layout_conversion_absoluteWidth="144dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@{Integer.toString(choice.votes)}" />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/item_for_question_details_votes_TextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{Integer.toString(choice.votes)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/view_item_for_question_details_RadioButton"
+            app:layout_constraintTop_toBottomOf="@+id/item_for_question_list_votes_lbl_TextView"
+            app:layout_constraintVertical_weight="1"
+            tools:layout_conversion_absoluteHeight="25dp"
+            tools:layout_conversion_absoluteWidth="144dp" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

@@ -1,5 +1,6 @@
 package bliss.blissrecruitmentapp.view.QuestionDetails;
 
+import android.animation.ObjectAnimator;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -38,7 +39,6 @@ public class QuestionDetailsActivity extends DaggerAppCompatActivity {
 
     @Inject
     Lazy<ViewModelProvider.Factory> viewModelFactory;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
