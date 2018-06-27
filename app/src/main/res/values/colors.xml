@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- Response feedback colors -->
+    <color name="error_red">#8c0000</color>
+    <color name="success_green">#018905</color>
+
     <color name="color1">#29D1CB</color>
     <color name="color2">#539AD2</color>
     <color name="color3">#5477bd</color>

@@ -17,7 +17,6 @@
         app:cardElevation="10dp"
         >
 
-
         <ProgressBar
             android:id="@+id/activity_share_Progress"
             android:layout_width="wrap_content"
@@ -31,7 +30,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="@{safeUnbox(shareActivityViewModel.loading) ? View.GONE : View.VISIBLE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:text="@={shareActivityViewModel.email}"
                     android:hint="@string/lbl_share_activity_enter_email"
                     android:inputType="textEmailAddress" />
 

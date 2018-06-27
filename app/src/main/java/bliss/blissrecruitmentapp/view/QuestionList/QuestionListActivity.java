@@ -163,5 +163,4 @@ public class QuestionListActivity extends DaggerAppCompatActivity {
         });
     }
 
-
 }

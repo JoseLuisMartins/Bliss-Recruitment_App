@@ -11,13 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
 import java.util.List;
-
 import bliss.blissrecruitmentapp.R;
 import bliss.blissrecruitmentapp.data.api.model.Question;
 import bliss.blissrecruitmentapp.databinding.ItemForQuestionListBinding;
-import bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivity;
+import bliss.blissrecruitmentapp.view.QuestionDetails.QuestionDetailsActivity;import io.reactivex.Observable;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.QuestionListItemHolder> {
     private List<Question> mQuestions;
@@ -32,7 +30,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     }
 
 
-    public void  setQuestions(List<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.mQuestions = questions;
         notifyDataSetChanged();
     }
@@ -93,7 +91,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
             super(binding.getRoot());
             this.binding = binding;
         }
-
     }
 
 }

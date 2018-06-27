@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 
 import bliss.blissrecruitmentapp.R;
@@ -20,7 +18,8 @@ import bliss.blissrecruitmentapp.utils.Utils;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 
-import static bliss.blissrecruitmentapp.utils.Utils.EMAIL_REGEX;
+import static bliss.blissrecruitmentapp.utils.Utils.isEmailValid;
+
 
 public class ShareActivity extends DaggerAppCompatActivity {
     private ActivityShareBinding mBinding;
@@ -46,7 +45,8 @@ public class ShareActivity extends DaggerAppCompatActivity {
         mShareActivityViewModel = ViewModelProviders.of(this, viewModelFactory.get()).get(ShareActivityViewModel.class);
         mBinding.setShareActivityViewModel(mShareActivityViewModel);
 
-        //Observe the questions data changes
+
+        //Get share action response
         mShareActivityViewModel.getSuccessResponse().observe(this, (@Nullable Boolean success) -> {
             if(success != null){
                 if(success) {
@@ -66,20 +66,17 @@ public class ShareActivity extends DaggerAppCompatActivity {
     }
 
 
-    public boolean isEmailValid(String email) {
-        return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
-    }
-
     public void shareLink(View view){
 
-        String email = mBinding.activityShareMailEditText.getText().toString();
+        String email = mShareActivityViewModel.getEmail();
 
         if(!isEmailValid(email)) {
-            Toast.makeText(mContext,mContext.getString(R.string.lbl_share_activity_invalid_email),Toast.LENGTH_SHORT).show();
+            mBinding.activityShareMailEditText.setError(mContext.getString(R.string.lbl_share_activity_invalid_email));
             return;
         }
 
-        mShareActivityViewModel.shareContent(email);
+        mBinding.activityShareMailEditText.setError(null);
+        mShareActivityViewModel.shareContent();
         Utils.hideFocusKeyboard(mContext, mBinding.activityShareMailEditText);
     }
 

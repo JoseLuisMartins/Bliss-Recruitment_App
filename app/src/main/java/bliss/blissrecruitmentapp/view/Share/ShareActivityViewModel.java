@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ShareActivityViewModel extends ViewModel{
     private final ShareRepository mShareRepository;
     private final String mUrl;
+    private String mEmail;
     private final CompositeDisposable mCompositeDisposable;
     private final MutableLiveData<Boolean> mSuccessResponse;
     private final MutableLiveData<Boolean> mLoading;
@@ -25,10 +26,19 @@ public class ShareActivityViewModel extends ViewModel{
         this.mShareRepository = shareRepository;
         this.mUrl = url;
         this.mCompositeDisposable = compositeDisposable;
+        this.mEmail = "";
 
         this.mSuccessResponse = new MutableLiveData<>();
         this.mLoading = new MutableLiveData<>();
 
+    }
+
+    public void setEmail(String email){
+        this.mEmail = email;
+    }
+
+    public String getEmail() {
+        return mEmail;
     }
 
     @Override
@@ -37,10 +47,10 @@ public class ShareActivityViewModel extends ViewModel{
         mCompositeDisposable.dispose();
     }
 
-    public void shareContent(String email) {
+    public void shareContent() {
         mLoading.setValue(true);
 
-        mCompositeDisposable.add(mShareRepository.shareApp(email, this.mUrl)
+        mCompositeDisposable.add(mShareRepository.shareApp(this.mEmail, this.mUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
